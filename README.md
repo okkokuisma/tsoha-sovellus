@@ -14,4 +14,4 @@ Noodle on web-sovellus, jota voidaan käyttää opetuksen apuvälineenä. Noodle
   * Näkee kurssille ilmoittautuneet opiskelijat ja näiden saamat tehtäväpisteet
   
 * Opiskelija
-  * Voi liittyä haluamilleen kursseille ja suorittaa niiden tehtäviä
+  * Voi liittyä kursseille ja suorittaa niiden tehtäviä
