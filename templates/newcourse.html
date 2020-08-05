@@ -1,0 +1,21 @@
+<form action="/searchusers" method="GET">
+    <input type="text" name="searchword">
+    <input type="submit" value="Etsi käyttäjiä">
+</form>
+<table>
+{% for user in users %}
+    <tr>
+        <td>{{ user[0] }}</td>
+    </tr>
+{% endfor %}
+</table>
+<form action="/addcourse" method="POST">
+    <fieldset>
+        <p>
+        Kurssin nimi: <input type="text" name="course_name"> 
+        <p>
+        Vastuuopettajan käyttäjätunnus: <input type="text" name="course_teacher"> 
+        <p>
+        <input type="submit" value="Lisää kurssi">
+    </fieldset>
+</form>

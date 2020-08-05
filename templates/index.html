@@ -1,0 +1,9 @@
+<p>Olet kirjautunut nimellä {{ session.username }}</p>
+{% if session.admin == True %}
+<a href="/newcourse">Lisää uusi kurssi</a>
+{% endif %}
+{% for course in courses %}
+<hr>
+<a href="/course/{{ course[0] }}/">{{ course[1] }}</a>
+{% endfor %}
+<a href="/logout">Kirjaudu ulos</a>

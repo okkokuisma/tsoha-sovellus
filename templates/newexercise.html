@@ -1,0 +1,35 @@
+<form action="/addquestions" method="POST">
+<input type="hidden" name="exercise_id" value="{{ exercise_id }}">
+{% for i in range(0,choice_question_count) %}
+<hr>
+<p>Kysymys: <input type="text" name="choice_question[{{ i }}]"></p> 
+<p>Vastausvaihtoehto 1:<br> 
+<input type="text" name="choice_question[{{ i }}][choice]"></p>
+<p>Vastausvaihtoehto 2:<br> 
+<input type="text" name="choice_question[{{ i }}][choice]"></p>
+<p>Vastausvaihtoehto 3:<br> 
+<input type="text" name="choice_question[{{ i }}][choice]"></p>
+<p>Vastausvaihtoehto 4:<br> 
+<input type="text" name="choice_question[{{ i }}][choice]"></p>
+<p>Oikea vastaus:<br>
+<input type="text" name="choice_question[{{ i }}][answer]"></p>
+<p>Tehtävästä saa pisteitä: <select name="choice_question[{{ i }}][points]">
+{% for i in range(0,11) %}
+<option value="{{ i }}"> {{ i }}
+{% endfor %}
+</select>
+{% endfor %}
+<p>
+{% for i in range(0,text_question_count) %}
+<hr>
+<p>Kysymys: <input type="text" name="text_question[{{ i }}]" size="10"></p>
+<p>Oikea vastaus: <input type="text" name="text_question[{{ i }}][answer]" size="10"></p>
+<p>Tehtävästä saa pisteitä: <select name="text_question[{{ i }}][points]">
+{% for i in range(0,11) %}
+<option value="{{ i }}"> {{ i }}
+{% endfor %}
+</select>
+{% endfor %}
+<p>
+<input type="submit" value="Jatka">
+</form>
