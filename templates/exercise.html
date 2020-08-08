@@ -1,17 +1,17 @@
 <form action="/answer" method="POST">
-<input type="hidden" name="exercise_id" value="{{ exercise_id }}">
-{% for question in questions %}
-<hr>
-{% if question[1]==True %}
-    <p>Kysymys: {{ question[0] }}</p> 
-    {% for choice in question[2] %}
-        <p><input type="radio" name="answer_{{ question[3] }}" value="{{ choice[1] }}"> {{ choice[1] }}</p>
+    <input type="hidden" name="exercise_id" value="{{ exercise_id }}">
+    {% for question in questions %}
+        <hr>
+        {% if question[1]==True %}
+            <p>Kysymys: {{ question[0] }}</p> 
+            {% for choice in question[2] %}
+                <p><input type="radio" name="answer_{{ question[3] }}" value="{{ choice[1] }}"> {{ choice[1] }}</p>
+            {% endfor %}
+        {% else %}
+            <p>Kysymys: {{ question[0] }}</p> 
+            <p>Vastaus: <input type="text" name="answer_{{ question[2] }}" size="50"></p>
+        {% endif %}
     {% endfor %}
-{% else %}
-    <p>Kysymys: {{ question[0] }}</p> 
-    <p>Vastaus: <input type="text" name="answer_{{ question[2] }}" size="50"></p>
-{% endif %}
-{% endfor %}
-<p>
-<input type="submit" value="Lähetä vastaukset">
+    <p>
+    <input type="submit" value="Lähetä vastaukset">
 </form>
