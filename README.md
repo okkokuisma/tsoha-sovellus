@@ -22,6 +22,8 @@ Noodle on web-sovellus, jota voidaan käyttää opetuksen apuvälineenä. Noodle
 
 * Joitain toiminnallisuuksia vielä puuttuu, kuten kurssien, tehtävien ja kysymyksien poistaminen ja opettajan kurssinäkymä
 
+* Sovelluksen ulkoasuun ei ole vielä koskettu
+
 ## Sovellus Herokussa
 
-Sovellusta voi kokeilla [Herokussa](http://tsoha-noodle.herokuapp.com/). Luo ensin oma tunnus rekisteröitymällä. Sovellukseen on luotu valmiiksi pari tehtävää. Kursseja voi luoda ainoastaan admin-oikeutettu käyttäjä, joita löytyy tietokannasta tällä hetkellä vain yksi.
+Sovellusta voi kokeilla [Herokussa](http://tsoha-noodle.herokuapp.com/). Voit luoda sovellukseen omat tunnukset tai käyttää admin-käyttäjää (tunnus: 'admin', salasana: 'noodleadmin'). Sovellukseen on luotu valmiiksi pari tehtävää.
