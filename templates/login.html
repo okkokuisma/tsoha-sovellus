@@ -5,7 +5,7 @@
         <input type="text" name="username"></p>
         <p>Salasana:<br>
         <input type="password" name="password"></p>
-        <input type="submit" value="Kirjaudu">
+        <input type="submit" value="Kirjaudu">{% if login_error == True %}Virheellinen käyttäjätunnus tai salasana{% endif %}
     </fieldset>
 </form>
 <form action="/signup" method="POST">
@@ -15,6 +15,6 @@
         <input type="text" name="username"></p>
         <p>Salasana:<br>
         <input type="password" name="password"></p>
-        <input type="submit" value="Rekisteröidy">
+        <input type="submit" value="Rekisteröidy">{% if signup_error == True %}Virheellinen käyttäjätunnus tai salasana{% endif %}
     </fieldset>
 </form>

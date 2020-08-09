@@ -20,6 +20,8 @@ def login(username,  password):
             return False
  
 def signup(username,  password):
+    if (not username or not password) or (username.isspace() or password.isspace()):
+        return False
     hash_value = generate_password_hash(password)
     try:
         sql = "INSERT INTO users (username, password, admin) VALUES (:username, :password, 0)"
@@ -43,12 +45,20 @@ def user_id():
 def get_user_id(username):
     sql = "SELECT id FROM Users WHERE username=:username"
     query_result = db.session.execute(sql,  {"username":username})
-    return query_result.fetchone()[0]
+    user_id = query_result.fetchone()
+    if user_id == None:
+        return 0
+    else:
+        return user_id[0]
 
 def get_username(user_id):
     sql = "SELECT username FROM Users WHERE id=:id"
     query_result = db.session.execute(sql,  {"id":user_id})
-    return query_result.fetchone()[0]
+    username = query_result.fetchone()
+    if username == None:
+        return None
+    else:
+        return username[0]
     
 def search_users(searchword):
     sql = "SELECT username FROM Users WHERE username LIKE :searchword LIMIT 20"

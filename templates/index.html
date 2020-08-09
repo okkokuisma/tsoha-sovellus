@@ -1,4 +1,6 @@
-<p>Olet kirjautunut nimellä {{ session.username }}</p>
+{% extends "layout.html" %}
+{% block title %}Etusivu{% endblock %}
+{% block content %}
 {% if session.admin == True %}
 <a href="/newcourse">Lisää uusi kurssi</a>
 {% endif %}
@@ -6,4 +8,5 @@
 <hr>
 <a href="/course/{{ course[0] }}/">{{ course[1] }}</a>
 {% endfor %}
-<a href="/logout">Kirjaudu ulos</a>
+{% endblock %}
+

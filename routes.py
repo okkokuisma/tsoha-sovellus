@@ -14,15 +14,19 @@ def index():
 def login():
     username = request.form["username"]
     password = request.form["password"]
-    users.login(username,  password)
-    return redirect("/")
- 
+    if users.login(username,  password):
+        return redirect("/")
+    else:
+        return render_template("login.html", login_error=True)
+
 @app.route("/signup",methods=["POST"])
 def signup():
-    username = request.form["username"]
-    password = request.form["password"]
-    users.signup(username,  password)
-    return redirect("/")
+    username = request.form["username"].strip()
+    password = request.form["password"].strip()
+    if users.signup(username,  password):
+        return redirect("/")
+    else: 
+        return render_template("login.html", signup_error=True)
  
 @app.route("/logout")
 def logout():
@@ -30,7 +34,7 @@ def logout():
     return redirect("/")
 
 @app.route("/newcourse")
-def newcourse():
+def new_course():
     return render_template("newcourse.html")
 
 @app.route("/searchusers")    
@@ -40,49 +44,63 @@ def search_users():
     return render_template("newcourse.html",  users=user_list)
 
 @app.route("/addcourse", methods=["POST"])
-def addcourse():
-    course_name = request.form["course_name"]
-    course_teacher = request.form["course_teacher"]
+def add_course():
+    course_name = request.form["course_name"].strip()
+    course_teacher = request.form["course_teacher"].strip()
     teacher_id = users.get_user_id(course_teacher)
     if teacher_id == None:
-        return redirect("/")
+        return render_template("newcourse.html",  error=True)
     else:
-        courses.add_course(course_name,  teacher_id)
-        return redirect("/")
+        if courses.add_course(course_name,  teacher_id):
+            return redirect("/")
+        else:
+            return render_template("newcourse.html",  error=True)
 
 @app.route("/newexercise", methods=["POST"])
-def newexercise():
-    exercise_name = request.form["exercise_name"]
+def new_exercise():
+    exercise_name = request.form["exercise_name"].strip()
     course_id = request.form["course_id"]
     exercise_id = exercises.add_exercise(exercise_name,  course_id)
-    
-    choice_questions = request.form["choice_question_count"]
-    text_questions = request.form["text_question_count"]
-    return render_template("newexercise.html", choice_question_count=int(choice_questions), text_question_count=int(text_questions), exercise_id=exercise_id)
+    if exercise_id != 0:
+        choice_questions = request.form["choice_question_count"]
+        text_questions = request.form["text_question_count"]
+        return render_template("newexercise.html", choice_question_count=int(choice_questions), text_question_count=int(text_questions), exercise_id=exercise_id)
+    else:
+        return redirect("/course/" + str(course_id))
 
 @app.route("/addquestions", methods=["POST"])
-def addquestions():
+def add_questions():
     exercise_id = request.form["exercise_id"]
     for i in range(0,10):
         question_title = request.form.get("choice_question["+str(i)+"]")
         if question_title == None:
             break
+        elif not question_title.strip():
+            continue
         else:
             answer = request.form.get("choice_question["+str(i)+"][answer]")
             points = int(request.form.get("choice_question["+str(i)+"][points]"))
             question_id = questions.add_question(question_title,  exercise_id,  1,  answer,  points)
+            if question_id == 0:
+                continue
             choice_list = request.form.getlist("choice_question["+str(i)+"][choice]")
-            for choice in choice_list:		
+            for choice in choice_list:
+                if not choice.strip():
+                    continue
                 choices.add_choice(choice,  question_id)
     
     for i in range(0,10):
         question_title = request.form.get("text_question["+str(i)+"]")
         if question_title == None:
             break
+        elif not question_title.strip():
+            continue
         else:
             answer = request.form.get("text_question["+str(i)+"][answer]")
             points = int(request.form.get("text_question["+str(i)+"][points]"))
-            questions.add_question(question_title,  exercise_id,  0,  answer,  points)
+            question_id = questions.add_question(question_title,  exercise_id,  0,  answer,  points)
+            if question_id == 0:
+                continue
     return redirect("/exercise/" + str(exercise_id))
 
 @app.route("/course/<int:id>/")
