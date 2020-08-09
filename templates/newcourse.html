@@ -1,3 +1,6 @@
+{% extends "layout.html" %}
+{% block title %}Etusivu{% endblock %}
+{% block content %}
 <form action="/searchusers" method="GET">
     <input type="text" name="searchword">
     <input type="submit" value="Etsi käyttäjiä">
@@ -19,3 +22,4 @@
         <input type="submit" value="Lisää kurssi">{% if error == True %}Virheellinen syöte{% endif %}
     </fieldset>
 </form>
+{% endblock %}

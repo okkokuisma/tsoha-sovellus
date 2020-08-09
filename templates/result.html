@@ -1,4 +1,8 @@
-<h1>Tulokset</h1>
+{% extends "layout.html" %}
+{% block title %}Etusivu{% endblock %}
+{% block navigation %}><a href="/course/{{ course_id }}/">Takaisin kurssille</a>{% endblock %}
+{% block content %}
+<h2>Tulokset</h2>
 {% for answer in answers %}
     <p>Kysymys: {{ answer[0] }}</p>
     <p>Oikea vastaus: {{answer[1]}}</p>
@@ -6,3 +10,4 @@
     <hr>
 {% endfor %}
 <p>Pisteitä: {{ points }}/{{ max_points }}
+{% endblock %}

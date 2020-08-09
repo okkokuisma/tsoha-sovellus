@@ -113,10 +113,11 @@ def course(id):
 @app.route("/exercise/<int:id>/")
 def exercise(id):
     user_id = users.user_id()
+    course_id = exercises.get_course_id_by_exercise(id)
     result = results.get_result(id,  user_id)
     if result != None:
         answer_list = answers.get_answers(id,  user_id)
-        return render_template("result.html", answers=answer_list, points=result[0],  max_points=result[1])   
+        return render_template("result.html", answers=answer_list, points=result[0],  max_points=result[1],  course_id=course_id)   
     else:
         question_list = questions.get_question_list(id)
         questions_choices = []
@@ -128,7 +129,7 @@ def exercise(id):
             else:
                 question = [q[1],  False,  q[0]]
                 questions_choices.append(question)
-        return render_template("exercise.html", questions=questions_choices, exercise_id=id)    
+        return render_template("exercise.html", questions=questions_choices, exercise_id=id,  course_id=course_id)    
 
 @app.route("/answer",  methods=["POST"])
 def answer():

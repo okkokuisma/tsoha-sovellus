@@ -1,8 +1,8 @@
 <!doctype html>
 <title>{% block title %}{% endblock %} - Noodle</title>
 <h1>Noodle</h1>
-<p>Olet kirjautunut nimellä {{ session.username }}</p>
-<a href="/logout">Kirjaudu ulos</a>
+<p>Olet kirjautunut nimellä {{ session.username }} <a href="/logout">Kirjaudu ulos</a></p>
+<p><a href="/">Etusivu</a>{% block navigation %}{% endblock %}</p>
 <hr>
 {% block content %}{% endblock %}
 <hr>

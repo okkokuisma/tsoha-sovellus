@@ -17,3 +17,12 @@ def get_exercise_list(course_id):
     sql = "SELECT * FROM Exercises WHERE course_id=:id"
     query_result = db.session.execute(sql, {"id":course_id})
     return query_result.fetchall()
+    
+def get_course_id_by_exercise(exercise_id):
+    sql = "SELECT course_id FROM Exercises WHERE id=:id"
+    query_result = db.session.execute(sql, {"id":exercise_id})
+    course_id = query_result.fetchone()
+    if course_id == None:
+        return 0
+    else:
+        return course_id[0]

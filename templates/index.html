@@ -5,7 +5,7 @@
 <a href="/newcourse">Lisää uusi kurssi</a>
 {% endif %}
 {% for course in courses %}
-<hr>
+<p>
 <a href="/course/{{ course[0] }}/">{{ course[1] }}</a>
 {% endfor %}
 {% endblock %}
