@@ -26,7 +26,7 @@
 {% endif %}
 <h2>Tehtävät</h2>
 {% for exercise in exercises %}
-    <hr>
+    <p>
     <a href="/exercise/{{ exercise[0] }}/">{{ exercise[1] }}</a>
 {% endfor %}
 {% endblock %}

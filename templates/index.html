@@ -1,9 +1,8 @@
 {% extends "layout.html" %}
 {% block title %}Etusivu{% endblock %}
+{% block navigation %}{% if session.admin == True %}><a href="/newcourse">Lisää uusi kurssi</a>{% endif %}{% endblock %}
 {% block content %}
-{% if session.admin == True %}
-<a href="/newcourse">Lisää uusi kurssi</a>
-{% endif %}
+<h2>Kurssit</h2>
 {% for course in courses %}
 <p>
 <a href="/course/{{ course[0] }}/">{{ course[1] }}</a>
