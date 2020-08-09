@@ -135,6 +135,7 @@ def exercise(id):
 def answer():
     user_id = users.user_id()
     exercise_id = request.form["exercise_id"]
+    course_id = exercises.get_course_id_by_exercise(exercise_id)
     question_list =questions.get_question_list(exercise_id)
     points = 0
     max_points = 0
@@ -147,4 +148,4 @@ def answer():
         if answer == question[4]:
             points += question[5]
     results.add_result(points, max_points, exercise_id, user_id)
-    return render_template("result.html", answers=user_answers, points=points,  max_points=max_points)   
+    return render_template("result.html", answers=user_answers, points=points,  max_points=max_points,  course_id=course_id)   
