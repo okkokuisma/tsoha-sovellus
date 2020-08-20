@@ -11,8 +11,13 @@ def add_question(question_title,  exercise_id,  choice_question,  answer,  point
         return question_id
     except:
         return 0
+
+def hide_question(question_id):
+    sql = "UPDATE Questions SET visible=0 WHERE id=:id"
+    db.session.execute(sql, {"id":question_id})
+    db.session.commit()
     
 def get_question_list(exercise_id):
-    sql = "SELECT * FROM Questions WHERE exercise_id=:id"
+    sql = "SELECT id, question_title, choice_question, answer, points FROM Questions WHERE exercise_id=:id AND visible=1"
     result = db.session.execute(sql, {"id":exercise_id})
     return result.fetchall()

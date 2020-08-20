@@ -60,13 +60,21 @@ def add_course():
 def new_exercise():
     exercise_name = request.form["exercise_name"].strip()
     course_id = request.form["course_id"]
-    exercise_id = exercises.add_exercise(exercise_name,  course_id)
-    if exercise_id != 0:
-        choice_questions = request.form["choice_question_count"]
-        text_questions = request.form["text_question_count"]
-        return render_template("newexercise.html", choice_question_count=int(choice_questions), text_question_count=int(text_questions), exercise_id=exercise_id)
-    else:
-        return redirect("/course/" + str(course_id))
+    exercises.add_exercise(exercise_name,  course_id)
+    return redirect("/course/" + str(course_id))
+
+@app.route("/exercise/<int:id>/newquestions",  methods=["POST"])
+def new_questions(id):
+    user_id = users.user_id()
+    course_id = exercises.get_course_id_by_exercise(id)
+    teacher_id = courses.get_teacher_id(course_id)
+    if user_id != teacher_id:
+        return redirect("/")
+    choice_questions = int(request.form["choice_question_count"])
+    text_questions = int(request.form["text_question_count"])
+    if choice_questions == 0 and text_questions == 0:
+        return redirect("/exercise/" + str(id) + "/")
+    return render_template("newquestions.html", choice_question_count=choice_questions, text_question_count=text_questions, exercise_id=id)
 
 @app.route("/addquestions", methods=["POST"])
 def add_questions():
@@ -114,24 +122,38 @@ def course(id):
 def exercise(id):
     user_id = users.user_id()
     course_id = exercises.get_course_id_by_exercise(id)
+    teacher_id = courses.get_teacher_id(course_id)
+    if user_id == teacher_id:
+        question_list = get_list_of_questions_and_answers(id)
+        return render_template("exercise_teacher.html", questions=question_list, exercise_id=id,  course_id=course_id)  
     result = results.get_result(id,  user_id)
     if result != None:
         answer_list = answers.get_answers(id,  user_id)
         return render_template("result.html", answers=answer_list, points=result[0],  max_points=result[1],  course_id=course_id)   
     else:
-        question_list = questions.get_question_list(id)
-        questions_choices = []
-        for q in question_list:
-            if q[3] == 1:
-                choice_list = choices.get_choices_by_question(q[0])
-                question = [q[1], True,  choice_list,  q[0]]
-                questions_choices.append(question)
-            else:
-                question = [q[1],  False,  q[0]]
-                questions_choices.append(question)
-        return render_template("exercise.html", questions=questions_choices, exercise_id=id,  course_id=course_id)    
+        question_list = get_list_of_questions_and_answers(id)
+        return render_template("exercise.html", questions=question_list, exercise_id=id,  course_id=course_id)    
 
-@app.route("/answer",  methods=["POST"])
+#@app.route("/exercise/<int:id>/edit")
+#def edit_exercise(id):
+#    user_id = users.user_id()
+#    course_id = exercises.get_course_id_by_exercise(id)
+#    teacher_id = courses.get_teacher_id(course_id)
+#    if user_id != teacher_id:
+#        return redirect("/")
+#    question_list = get_list_of_questions_and_answers(id)
+#    return render_template("edit_exercise.html", questions=question_list, exercise_id=id,  course_id=course_id)  
+    
+@app.route("/exercise/<int:id>/save_changes", methods=["POST"])
+def save_changes(id):
+    question_list =questions.get_question_list(id)
+    for question in question_list:
+        remove_question = request.form.get("question_" + str(question[0]) + "_remove")
+        if remove_question == "1":
+            questions.hide_question(question[0])
+    return redirect("/exercise/" + str(id))
+    
+@app.route("/answer", methods=["POST"])
 def answer():
     user_id = users.user_id()
     exercise_id = request.form["exercise_id"]
@@ -142,10 +164,23 @@ def answer():
     user_answers = []
     for question in question_list:
         answer = request.form.get("answer_" + str(question[0]))
-        user_answers.append([question[1],  question[4],  answer])
+        user_answers.append([question[1], question[4], answer])
         max_points += question[5]
         answers.add_answer(answer, question[0], user_id)
         if answer == question[4]:
             points += question[5]
     results.add_result(points, max_points, exercise_id, user_id)
-    return render_template("result.html", answers=user_answers, points=points,  max_points=max_points,  course_id=course_id)   
+    return render_template("result.html", answers=user_answers, points=points, max_points=max_points, course_id=course_id)   
+    
+def get_list_of_questions_and_answers(exercise_id):
+    question_list = questions.get_question_list(exercise_id)
+    questions_choices = []
+    for q in question_list:
+        if q[2] == 1:
+            choice_list = choices.get_choices_by_question(q[0])
+            question = [q[0], q[1], True, q[3], q[4], choice_list]
+            questions_choices.append(question)
+        else:
+            question = [q[0], q[1], False, q[3], q[4]]
+            questions_choices.append(question)
+    return questions_choices

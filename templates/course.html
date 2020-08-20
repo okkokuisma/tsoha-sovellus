@@ -6,21 +6,8 @@
         <fieldset>
             <legend>Lisää tehtävä</legend>
             <input type="hidden" name="course_id" value="{{ course_id }}">
-            Tehtävän nimi: <input type="text" name="exercise_name" size="10"> 
-            <p>
-            Monivalintakysymyksiä: <select name="choice_question_count">
-            {% for i in range(0,11) %}
-            <option value="{{ i }}"> {{ i }}
-            {% endfor %}
-            </select> <br>
-            <p>
-            Tekstikysymyksiä: <select name="text_question_count">
-            {% for i in range(0,11) %}
-            <option value="{{ i }}"> {{ i }}
-            {% endfor %}
-            </select>
-            <p>
-            <input type="submit" value="Jatka">
+            <p>Tehtävän nimi: <input type="text" name="exercise_name" size="10"></p>
+            <input type="submit" value="Lisää tehtävä">
         </fieldset>
     </form>
 {% endif %}
