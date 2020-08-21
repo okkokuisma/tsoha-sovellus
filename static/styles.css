@@ -1,0 +1,29 @@
+body {
+    margin: auto;
+    max-width: 45em;
+    font-family: 'Helvetica', 'Arial', sans-serif;
+}
+
+.header {
+    background: sandybrown;
+    font-weight: bold;
+    padding: 0 1em;
+    font-size: 2em;
+}
+
+.login {
+    text-align: right;
+}
+
+.search_form {
+    text-align: right;
+}
+
+ul li {
+    display: block;
+    padding: .5em 0;
+}
+
+ul {
+    padding: 0;
+}

@@ -1,8 +1,23 @@
-<!doctype html>
-<title>{% block title %}{% endblock %} - Noodle</title>
-<h1>Noodle</h1>
-<p>Olet kirjautunut nimellä {{ session.username }} <a href="/logout">Kirjaudu ulos</a></p>
-<p><a href="/">Etusivu</a>{% block navigation %}{% endblock %}</p>
-<hr>
-{% block content %}{% endblock %}
-<hr>
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}{% endblock %} - Noodle</title>
+    </head>
+
+    <body>
+        <div class="header">
+            <h1>Noodle</h1>
+        </div>
+        <div class="login">
+            <p>Olet kirjautunut nimellä {{ session.username }}<br> 
+            <a href="/logout">Kirjaudu ulos</a></p>
+        </div>
+        <nav>
+            <p><a href="/">Etusivu</a>{% block navigation %}{% endblock %}</p>
+        </nav>
+        <hr>
+        {% block content %}{% endblock %}
+    </body>
+</html>

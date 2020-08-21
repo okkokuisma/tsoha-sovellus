@@ -42,6 +42,12 @@ def search_users():
     searchword = request.args["searchword"]
     user_list = users.search_users(searchword)
     return render_template("newcourse.html",  users=user_list)
+    
+@app.route("/searchcourses")    
+def search_courses():
+    searchword = request.args["searchword"]
+    course_list = courses.search_courses(searchword)
+    return render_template("index.html",  courses=course_list)
 
 @app.route("/addcourse", methods=["POST"])
 def add_course():

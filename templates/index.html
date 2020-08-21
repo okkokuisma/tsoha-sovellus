@@ -1,11 +1,18 @@
 {% extends "layout.html" %}
 {% block title %}Etusivu{% endblock %}
-{% block navigation %}{% if session.admin == True %}><a href="/newcourse">Lisää uusi kurssi</a>{% endif %}{% endblock %}
 {% block content %}
+{% if session.admin == True %}<a href="/newcourse">Lisää uusi kurssi</a>{% endif %}
 <h2>Kurssit</h2>
+<div class="search_form">
+    <form action="/searchcourses" method="GET">
+        <input type="text" name="searchword">
+        <input type="submit" value="Etsi kursseja">
+    </form>
+</div>
+<ul>
 {% for course in courses %}
-<p>
-<a href="/course/{{ course[0] }}/">{{ course[1] }}</a>
+    <li><a href="/course/{{ course[0] }}/">{{ course[1] }}</a></li>
 {% endfor %}
+</ul>
 {% endblock %}
 
