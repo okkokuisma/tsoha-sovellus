@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block title %}Etusivu{% endblock %}
-{% block navigation %}><a href="/course/{{ course_id }}/">Takaisin kurssille</a>{% endblock %}
+{% block navigation %}><a href="/course/{{ course[0] }}/">{{ course[1] }}</a>{% endblock %}
 {% block content %}
 <h2>Tulokset</h2>
 {% for answer in answers %}

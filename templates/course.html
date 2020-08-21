@@ -1,11 +1,12 @@
 {% extends "layout.html" %}
-{% block title %}Kurssi{% endblock %}
+{% block title %}{{ course[1] }}{% endblock %}
+{% block navigation %}>{{ course[1] }}{% endblock %}
 {% block content %}
-{% if session.username == teacher_username %}
+{% if session.user_id == course[2] %}
     <form action="/newexercise" method="POST">
         <fieldset>
             <legend>Lisää tehtävä</legend>
-            <input type="hidden" name="course_id" value="{{ course_id }}">
+            <input type="hidden" name="course_id" value="{{ course[0] }}">
             <p>Tehtävän nimi: <input type="text" name="exercise_name"></p>
             <input type="submit" value="Lisää tehtävä">
         </fieldset>

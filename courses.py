@@ -26,3 +26,8 @@ def search_courses(searchword):
     result = db.session.execute(sql,  {"searchword":"%"+searchword+"%"})
     users = result.fetchall()
     return users
+    
+def get_course_by_id(course_id):
+    query_result = db.session.execute("SELECT id, name, teacher_id FROM Courses WHERE id=:id",  {"id":course_id})
+    course = query_result.fetchone()
+    return course

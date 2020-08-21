@@ -1,10 +1,10 @@
 {% extends "layout.html" %}
 {% block title %}Etusivu{% endblock %}
-{% block navigation %}><a href="/course/{{ course_id }}/">Takaisin kurssille</a>{% endblock %}
+{% block navigation %}><a href="/course/{{ course[0] }}/">{{ course[1] }}</a>>{{ exercise[1] }}{% endblock %}
 {% block content %}
 <h2>Kysymykset</h2>
 <form action="/answer" method="POST">
-    <input type="hidden" name="exercise_id" value="{{ exercise_id }}">
+    <input type="hidden" name="exercise_id" value="{{ exercise[0] }}">
     {% for question in questions %}
         {% if question[2]==True %}
             <p>Kysymys: {{ question[1] }}</p> 

@@ -11,7 +11,11 @@ def add_exercise(exercise_name,  course_id):
         return exercise_id
     except:
         return 0
-    
+ 
+def get_exercise_by_id(exercise_id): 
+    query_result = db.session.execute("SELECT id, name, course_id FROM Exercises WHERE id=:id",  {"id":exercise_id})
+    exercise = query_result.fetchone()
+    return exercise
     
 def get_exercise_list(course_id):
     sql = "SELECT * FROM Exercises WHERE course_id=:id"

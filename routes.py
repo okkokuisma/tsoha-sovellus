@@ -112,33 +112,32 @@ def add_questions():
         else:
             answer = request.form.get("text_question["+str(i)+"][answer]")
             points = int(request.form.get("text_question["+str(i)+"][points]"))
-            question_id = questions.add_question(question_title,  exercise_id,  0,  answer,  points)
+            question_id = questions.add_question(question_title,  exercise_id, 0, answer, points)
             if question_id == 0:
                 continue
     return redirect("/exercise/" + str(exercise_id))
 
 @app.route("/course/<int:id>/")
 def course(id):
-    teacher_id = courses.get_teacher_id(id)
-    teacher_username = users.get_username(teacher_id)
+    course = courses.get_course_by_id(id)
     exercise_list = exercises.get_exercise_list(id)
-    return render_template("course.html", exercises=exercise_list, course_id=id,  teacher_username=teacher_username)
+    return render_template("course.html", exercises=exercise_list, course=course)
     
 @app.route("/exercise/<int:id>/")
 def exercise(id):
     user_id = users.user_id()
-    course_id = exercises.get_course_id_by_exercise(id)
-    teacher_id = courses.get_teacher_id(course_id)
-    if user_id == teacher_id:
+    exercise = exercises.get_exercise_by_id(id)
+    course = courses.get_course_by_id(exercise[2])
+    if user_id == course[2]:
         question_list = get_list_of_questions_and_answers(id)
-        return render_template("exercise_teacher.html", questions=question_list, exercise_id=id,  course_id=course_id)  
+        return render_template("exercise_teacher.html", questions=question_list, exercise=exercise, course=course)  
     result = results.get_result(id,  user_id)
     if result != None:
         answer_list = answers.get_answers(id,  user_id)
-        return render_template("result.html", answers=answer_list, points=result[0],  max_points=result[1],  course_id=course_id)   
+        return render_template("result.html", answers=answer_list, points=result[0], max_points=result[1], course=course)   
     else:
         question_list = get_list_of_questions_and_answers(id)
-        return render_template("exercise.html", questions=question_list, exercise_id=id,  course_id=course_id)    
+        return render_template("exercise.html", questions=question_list, exercise=exercise, course=course)    
 
 #@app.route("/exercise/<int:id>/edit")
 #def edit_exercise(id):
@@ -170,11 +169,11 @@ def answer():
     user_answers = []
     for question in question_list:
         answer = request.form.get("answer_" + str(question[0]))
-        user_answers.append([question[1], question[4], answer])
-        max_points += question[5]
+        user_answers.append([question[1], question[3], answer])
+        max_points += question[4]
         answers.add_answer(answer, question[0], user_id)
-        if answer == question[4]:
-            points += question[5]
+        if answer == question[3]:
+            points += question[4]
     results.add_result(points, max_points, exercise_id, user_id)
     return render_template("result.html", answers=user_answers, points=points, max_points=max_points, course_id=course_id)   
     

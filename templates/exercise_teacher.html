@@ -1,11 +1,11 @@
 {% extends "layout.html" %}
 {% block title %}Etusivu{% endblock %}
-{% block navigation %}><a href="/course/{{ course_id }}/">Takaisin kurssille</a>{% endblock %}
+{% block navigation %}><a href="/course/{{ course[0] }}/">{{ course[1] }}</a>>{{ exercise[1] }}{% endblock %}
 {% block content %}
-<form action="/exercise/{{ exercise_id }}/newquestions" method="POST">
+<form action="/exercise/{{ exercise[0] }}/newquestions" method="POST">
     <fieldset>
         <legend>Lisää kysymyksiä</legend>
-        <input type="hidden" name="exercise_id" value="{{ exercise_id }}">
+        <input type="hidden" name="exercise_id" value="{{ exercise[0] }}">
         <p>Monivalintakysymyksiä: <select name="choice_question_count"></p>
         {% for i in range(0,11) %}
             <option value="{{ i }}"> {{ i }}
@@ -20,7 +20,7 @@
         <input type="submit" value="Jatka">
     </fieldset>
 </form>
-<form action="/exercise/{{ exercise_id }}/save_changes" method="POST">
+<form action="/exercise/{{ exercise[0] }}/save_changes" method="POST">
     <h2>Kysymykset</h2>
     {% for question in questions %}
         {% if question[2]==True %}
