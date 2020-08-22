@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block title %}Kurssin {{ course[1] }} opiskelijat{% endblock %}
+{% block navigation %}><a href="/course/{{ course[0] }}/">{{ course[1] }}</a>{% endblock %}
+{% block content %}
+<form action="/course/{{ course[0] }}/searchattendees" method="GET">
+    <input type="text" name="searchword">
+    <input type="submit" value="Etsi käyttäjiä">
+</form>
+<ul>
+{% for user in attendees %}
+    <li><a href="/course/{{ course[0] }}/attendees/{{ user[0] }}/">{{ user[1] }}</a></li>
+{% endfor %}
+</ul>
+{% endblock %}

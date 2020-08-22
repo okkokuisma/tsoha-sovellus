@@ -1,20 +1,21 @@
 from db import db
+from werkzeug.security import generate_password_hash
 
 def get_course_list():
     query_result = db.session.execute("SELECT id, name, teacher_id FROM Courses WHERE visible=1")
     course_list = query_result.fetchall()
     return course_list
 
-def add_course(course_name,  teacher_id):
-    if not course_name:
-        return False
-    try:
+def add_course(course_name,  teacher_id,  course_key):
+    if course_key == None:
         sql = "INSERT INTO Courses (name, teacher_id) VALUES (:course_name, :teacher_id)"
         db.session.execute(sql, {"course_name":course_name, "teacher_id":teacher_id})
         db.session.commit()
-        return True
-    except:
-        return False
+    else:
+        hash_value = generate_password_hash(course_key)
+        sql = "INSERT INTO Courses (name, teacher_id, course_key) VALUES (:course_name, :teacher_id, :course_key)"
+        db.session.execute(sql, {"course_name":course_name, "teacher_id":teacher_id, "course_key":hash_value})
+        db.session.commit()
 
 def get_teacher_id(course_id):
     query_result = db.session.execute("SELECT teacher_id FROM Courses WHERE id=:id",  {"id":course_id})
@@ -28,6 +29,7 @@ def search_courses(searchword):
     return users
     
 def get_course_by_id(course_id):
-    query_result = db.session.execute("SELECT id, name, teacher_id FROM Courses WHERE id=:id",  {"id":course_id})
+    query_result = db.session.execute("SELECT id, name, teacher_id, course_key FROM Courses WHERE id=:id",  {"id":course_id})
     course = query_result.fetchone()
     return course
+

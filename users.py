@@ -61,7 +61,19 @@ def get_username(user_id):
         return username[0]
     
 def search_users(searchword):
-    sql = "SELECT username FROM Users WHERE username LIKE :searchword LIMIT 20"
+    sql = "SELECT id, username FROM Users WHERE username LIKE :searchword LIMIT 30"
     result = db.session.execute(sql,  {"searchword":"%"+searchword+"%"})
     users = result.fetchall()
     return users
+    
+def get_attendees(course_id):
+    sql = "SELECT id, username FROM Users WHERE id IN (SELECT user_id FROM registrations WHERE course_id=:course_id) LIMIT 30"
+    result = db.session.execute(sql,  {"course_id":course_id})
+    attendees = result.fetchall()
+    return attendees
+    
+def search_attendees(course_id, searchword):
+    sql = "SELECT id, username FROM Users WHERE id IN (SELECT user_id FROM registrations WHERE course_id=:course_id) AND username LIKE :searchword"
+    result = db.session.execute(sql,  {"course_id":course_id, "searchword":"%"+searchword+"%"})
+    attendees = result.fetchall()
+    return attendees

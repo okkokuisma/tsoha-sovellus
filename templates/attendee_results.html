@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+{% block title %}Opiskelijan tulokset{% endblock %}
+{% block navigation %}><a href="/course/{{ course[0] }}/">{{ course[1] }}</a>{% endblock %}
+{% block content %}
+<ul>
+{% for result in results %}
+    <li><a href="/">{{ result[0] }}:</a> {{ result[1] }} pistettä maksimista {{ result[2] }}</li>
+{% endfor %}
+</ul>
+{% endblock %}
