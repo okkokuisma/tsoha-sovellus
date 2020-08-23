@@ -5,14 +5,16 @@ Noodle on web-sovellus, jota voidaan käyttää opetuksen apuvälineenä. Noodle
 ## Käyttäjäroolit ja päätoiminnallisuudet
 
 * Ylläpitäjä
-  * Voi luoda uusia kurssialustoja
-  * Voi antaa vastuuopettajan oikeudet toiselle käyttäjälle uutta kurssia luotaessa
-  * Voi poistaa kursseja ja käyttäjiä (ei vielä toteutettu)
+	* Voi luoda uusia kurssialustoja
+	* Voi antaa vastuuopettajan oikeudet toiselle käyttäjälle uutta kurssia luotaessa
+	* Voi poistaa kursseja ja tehtäviä (ei vielä toteutettu)
+
+* Vastuuopettaja
+	* Voi lisätä kurssille uusia tehtäviä ja kysymyksiä
+	* Näkee kurssille ilmoittautuneet opiskelijat ja näiden saamat tulokset tehtävistä
 
 * Käyttäjä
-  * Voi liittyä kursseille ja suorittaa niiden tehtäviä
-  * Voi luoda uusia tehtäviä niiden kurssien alustoille, joissa vastuuopettajana
-  * Näkee kurssille ilmoittautuneet opiskelijat ja näiden saamat tehtäväpisteet (ei vielä toteutettu)
+	* Voi liittyä kursseille ja suorittaa niiden tehtäviä
 
 ## Sovelluksen tila 9.8. (välipalautus 2)
 
