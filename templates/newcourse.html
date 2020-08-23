@@ -1,21 +1,17 @@
 {% extends "layout.html" %}
 {% block title %}Luo uusi kurssi{% endblock %}
 {% block content %}
-<form action="/searchusers" method="GET">
-    <input type="text" name="searchword">
-    <input type="submit" value="Etsi käyttäjiä">
-</form>
-<ul>
-{% for user in users %}
-    <li>{{ user[1] }}</li>
-{% endfor %}
-</ul>
 <form action="/addcourse" method="POST">
     <fieldset>
         <p>Kurssin nimi: <input type="text" name="course_name"></p>
-        <p>Vastuuopettajan käyttäjätunnus: <input type="text" name="course_teacher"></p>
+        <p>Vastuuopettajan käyttäjätunnus:
+        <select name="teacher_id">
+        {% for user in teachers %}
+            <option value="{{ user[0] }}">{{ user[1] }}
+        {% endfor %}
+        </select></p>
         <p>Kurssiavain (jätä tyhjäksi, jos et halua kurssille kurssiavainta): <input type="password" name="course_key"></p>
-        <input type="submit" value="Lisää kurssi">{% if error == True %}Virheellinen syöte{% endif %}
+        <input type="submit" value="Lisää kurssi"> {% if error == True %}Virheellinen syöte{% endif %}
     </fieldset>
 </form>
 {% endblock %}

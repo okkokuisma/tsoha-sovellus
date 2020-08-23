@@ -1,0 +1,16 @@
+body {
+    margin: auto;
+    max-width: 30em;
+    font-family: 'Helvetica', 'Arial', sans-serif;
+}
+
+.header {
+    background: sandybrown;
+    font-weight: bold;
+    padding: 0 1em;
+    font-size: 2em;
+}
+
+.forms {
+    padding: 70px 0;
+}

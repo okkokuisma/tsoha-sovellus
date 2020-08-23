@@ -5,6 +5,12 @@ def get_course_list():
     query_result = db.session.execute("SELECT id, name, teacher_id FROM Courses WHERE visible=1")
     course_list = query_result.fetchall()
     return course_list
+    
+def get_registered_courses(user_id):
+    sql = "SELECT id, name, teacher_id FROM Courses WHERE id IN (SELECT course_id FROM registrations WHERE user_id=:id) AND visible=1"
+    query_result = db.session.execute(sql, {"id":user_id})
+    course_list = query_result.fetchall()
+    return course_list
 
 def add_course(course_name,  teacher_id,  course_key):
     if course_key == None:

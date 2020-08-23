@@ -1,20 +1,44 @@
-<form action="/login" method="POST">
-    <fieldset>
-        <legend>Kirjaudu sisään</legend>
-        <p>Tunnus:<br>
-        <input type="text" name="username"></p>
-        <p>Salasana:<br>
-        <input type="password" name="password"></p>
-        <input type="submit" value="Kirjaudu">{% if login_error == True %}Virheellinen käyttäjätunnus tai salasana{% endif %}
-    </fieldset>
-</form>
-<form action="/signup" method="POST">
-    <fieldset>
-        <legend>Rekisteröidy</legend>
-        <p>Tunnus:<br>
-        <input type="text" name="username"></p>
-        <p>Salasana:<br>
-        <input type="password" name="password"></p>
-        <input type="submit" value="Rekisteröidy">{% if signup_error == True %}Virheellinen käyttäjätunnus tai salasana{% endif %}
-    </fieldset>
-</form>
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Kirjaudu sisään - Noodle</title>
+    </head>
+    <body>
+        <div class="header">
+            <h1>Noodle</h1>
+        </div>
+        <div class="forms">
+        <p>
+        <form action="/login" method="POST">
+            <fieldset>
+                <legend>Kirjaudu sisään</legend>
+                <p>Tunnus:<br>
+                <input type="text" name="username"></p>
+                <p>Salasana:<br>
+                <input type="password" name="password"></p>
+                <input type="submit" value="Kirjaudu">{% if login_error == True %}Virheellinen käyttäjätunnus tai salasana{% endif %}
+            </fieldset>
+        </form>
+        </p>
+        <p>
+        <form action="/signup" method="POST">
+            <fieldset>
+                <legend>Rekisteröidy</legend>
+                <p>Tunnus:<br>
+                <input type="text" name="username"></p>
+                <p>Salasana:<br>
+                <input type="password" name="password"></p>
+                <input type="submit" value="Rekisteröidy">
+                {% if signup_error == True %}
+                    Virheellinen käyttäjätunnus tai salasana
+                {% elif signup_error == False %}
+                    Käyttäjä lisätty tietokantaan
+                {% endif %}
+            </fieldset>
+        </form>
+        </p>
+        </div>
+    </body>
+</html>

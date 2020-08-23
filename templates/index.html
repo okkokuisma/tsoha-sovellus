@@ -1,7 +1,15 @@
 {% extends "layout.html" %}
 {% block title %}Etusivu{% endblock %}
 {% block content %}
-{% if session.admin == True %}<a href="/newcourse">Lisää uusi kurssi</a>{% endif %}
+<div class="navbar">
+    <ul>
+        <li><a href="/registeredcourses">Omat kurssit</a></li>
+        {% if session.admin == True %}
+        <li><a href="/newcourse">Lisää kurssi</a></li>
+        <li><a href="/teachers">Lisää opettaja</a></li>
+        {% endif %}
+    </ul>
+</div>
 <h2>Kurssit</h2>
 <div class="search_form">
     <form action="/searchcourses" method="GET">

@@ -25,7 +25,7 @@ def signup():
     username = request.form["username"].strip()
     password = request.form["password"].strip()
     if users.signup(username,  password):
-        return redirect("/")
+        return render_template("login.html", signup_error=False)
     else: 
         return render_template("login.html", signup_error=True)
  
@@ -36,13 +36,24 @@ def logout():
 
 @app.route("/newcourse")
 def new_course():
-    return render_template("newcourse.html")
+    teachers = users.get_teachers()
+    return render_template("newcourse.html", teachers=teachers)
+    
+@app.route("/teachers")
+def teachers():
+    return render_template("teachers.html")
+    
+@app.route("/registeredcourses")    
+def registered_courses():
+    user_id = users.user_id()
+    course_list = courses.get_registered_courses(user_id)
+    return render_template("index.html", courses=course_list)
 
 @app.route("/searchusers")    
 def search_users():
     searchword = request.args["searchword"]
     user_list = users.search_users(searchword)
-    return render_template("newcourse.html",  users=user_list)
+    return render_template("teachers.html",  users=user_list)
     
 @app.route("/course/<int:id>/searchattendees")    
 def search_attendees(id): 
@@ -60,16 +71,25 @@ def search_courses():
 @app.route("/addcourse", methods=["POST"])
 def add_course():
     course_name = request.form["course_name"].strip()
-    course_teacher = request.form["course_teacher"].strip()
+    teacher_id = request.form.get("teacher_id")
     course_key = request.form.get("course_key").strip()
-    teacher_id = users.get_user_id(course_teacher)
     if teacher_id == None or not course_name:
-        return render_template("newcourse.html",  error=True)
+        teachers = users.get_teachers()
+        return render_template("newcourse.html", teachers=teachers, error=True)
     if not course_key:
         courses.add_course(course_name,  teacher_id,  None)
         return redirect("/")
     courses.add_course(course_name,  teacher_id,  course_key)
     return redirect("/")
+    
+@app.route("/addteacher", methods=["POST"])
+def add_teacher():
+    username = request.form.get("username").strip()
+    user_id = users.get_user_id(username)
+    if user_id == 0:
+        return render_template("teachers.html", error=True)
+    users.add_teacher(user_id)
+    return render_template("teachers.html", error=False)
 
 @app.route("/newexercise", methods=["POST"])
 def new_exercise():

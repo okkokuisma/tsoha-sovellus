@@ -1,7 +1,23 @@
-{% for teacher in teachers %}
-<p>
-<i>Nimi:</i> {{ teacher[1] }}
-<p>
-<i>Käyttäjätunnus:</i> {{ teacher[2] }}
-<hr>
+{% extends "layout.html" %}
+{% block title %}Luo uusi kurssi{% endblock %}
+{% block content %}
+<h2>Opettajat</h2>
+<form action="/searchusers" method="GET">
+    <input type="text" name="searchword">
+    <input type="submit" value="Etsi käyttäjiä">
+</form>
+<ul>
+{% for user in users %}
+    <li>{{ user[1] }}</li>
 {% endfor %}
+</ul>
+<form action="/addteacher" method="POST">
+    Käyttäjätunnus: <input type="text" name="username">
+    <input type="submit" value="Lisää opettajaksi">
+    {% if error == True %}
+    Virheellinen syöte
+    {% elif error == False %}
+    Käyttäjä lisätty opettajaksi
+    {% endif %}
+</form>
+{% endblock %}

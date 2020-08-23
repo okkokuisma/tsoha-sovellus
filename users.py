@@ -77,3 +77,13 @@ def search_attendees(course_id, searchword):
     result = db.session.execute(sql,  {"course_id":course_id, "searchword":"%"+searchword+"%"})
     attendees = result.fetchall()
     return attendees
+    
+def add_teacher(user_id):
+    sql = "UPDATE users SET teacher=1 WHERE id=:id"
+    db.session.execute(sql, {"id":user_id})
+    db.session.commit()
+    
+def get_teachers():
+    result = db.session.execute("SELECT id, username FROM Users WHERE teacher=1")
+    teachers = result.fetchall()
+    return teachers
