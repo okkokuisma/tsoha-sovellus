@@ -13,8 +13,8 @@ def index():
     
 @app.route("/login",methods=["POST"])
 def login():
-    username = request.form["username"]
-    password = request.form["password"]
+    username = request.form["username"].strip()
+    password = request.form["password"].strip()
     if users.login(username,  password):
         return redirect("/")
     else:
@@ -200,9 +200,8 @@ def exercise(id):
     if result != None:
         answer_list = answers.get_answers(id,  user_id)
         return render_template("result.html", answers=answer_list, points=result[0], max_points=result[1], course=course)   
-    else:
-        question_list = get_list_of_questions_and_answers(id)
-        return render_template("exercise.html", questions=question_list, exercise=exercise, course=course)    
+    question_list = get_list_of_questions_and_answers(id)
+    return render_template("exercise.html", questions=question_list, exercise=exercise, course=course)    
 
 #@app.route("/exercise/<int:id>/edit")
 #def edit_exercise(id):

@@ -18,7 +18,7 @@ def get_exercise_by_id(exercise_id):
     return exercise
     
 def get_exercise_list(course_id):
-    sql = "SELECT * FROM Exercises WHERE course_id=:id"
+    sql = "SELECT id, name, course_id FROM Exercises WHERE course_id=:id AND visible=1"
     query_result = db.session.execute(sql, {"id":course_id})
     return query_result.fetchall()
     
