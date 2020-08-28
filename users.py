@@ -3,18 +3,20 @@ from flask import session
 from werkzeug.security import check_password_hash, generate_password_hash
 
 def login(username,  password):
-    sql = "SELECT password, admin, id FROM users WHERE username=:username"
+    sql = "SELECT id, password, admin FROM users WHERE username=:username"
     result = db.session.execute(sql, {"username":username})
     user = result.fetchone()    
     if user == None:
         return False
     else:
-        hash_value = user[0]
+        hash_value = user[1]
         if check_password_hash(hash_value,password):
             session["username"] = username
-            session["user_id"] = user[2]
-            if user[1] == 1:
+            session["user_id"] = user[0]
+            if user[2] == 1:
                 session["admin"] = True
+            else:
+                session["admin"] = False
             return True
         else:
             return False

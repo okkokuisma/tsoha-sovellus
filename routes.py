@@ -150,7 +150,7 @@ def add_questions():
 def course(id):
     user_id = users.user_id()
     course = courses.get_course_by_id(id)
-    if not registrations.check_registration(user_id, id):
+    if not registrations.check_registration(user_id, id) and session["admin"] == False:
         if course[3] == None:
             return render_template("registration.html", course=course)
         return render_template("registration.html",  course=course, course_key=True)
