@@ -235,6 +235,8 @@ def answer():
     user_answers = []
     for question in question_list:
         answer = request.form.get("answer_" + str(question[0]))
+        if answer == None:
+            answer = ""
         user_answers.append([question[1], question[3], answer])
         max_points += question[4]
         answers.add_answer(answer, question[0], user_id)
