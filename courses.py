@@ -14,14 +14,17 @@ def get_registered_courses(user_id):
 
 def add_course(course_name,  teacher_id,  course_key):
     if course_key == None:
-        sql = "INSERT INTO Courses (name, teacher_id) VALUES (:course_name, :teacher_id)"
-        db.session.execute(sql, {"course_name":course_name, "teacher_id":teacher_id})
+        sql = "INSERT INTO Courses (name, teacher_id) VALUES (:course_name, :teacher_id) RETURNING id"
+        result = db.session.execute(sql, {"course_name":course_name, "teacher_id":teacher_id})
+        course_id = result.fetchone()[0]
         db.session.commit()
     else:
         hash_value = generate_password_hash(course_key)
-        sql = "INSERT INTO Courses (name, teacher_id, course_key) VALUES (:course_name, :teacher_id, :course_key)"
-        db.session.execute(sql, {"course_name":course_name, "teacher_id":teacher_id, "course_key":hash_value})
+        sql = "INSERT INTO Courses (name, teacher_id, course_key) VALUES (:course_name, :teacher_id, :course_key) RETURNING id"
+        result = db.session.execute(sql, {"course_name":course_name, "teacher_id":teacher_id, "course_key":hash_value})
+        course_id = result.fetchone()[0]
         db.session.commit()
+    return course_id
 
 def get_teacher_id(course_id):
     query_result = db.session.execute("SELECT teacher_id FROM Courses WHERE id=:id",  {"id":course_id})

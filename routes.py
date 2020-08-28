@@ -79,7 +79,8 @@ def add_course():
     if not course_key:
         courses.add_course(course_name,  teacher_id,  None)
         return redirect("/")
-    courses.add_course(course_name,  teacher_id,  course_key)
+    course_id = courses.add_course(course_name,  teacher_id,  course_key)
+    registrations.add_registration(teacher_id, course_id)
     return redirect("/")
     
 @app.route("/addteacher", methods=["POST"])
