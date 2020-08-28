@@ -4,7 +4,6 @@
 <form action="/addquestions" method="POST">
 <input type="hidden" name="exercise_id" value="{{ exercise_id }}">
 {% for i in range(0,choice_question_count) %}
-<hr>
 <p>Kysymys: <input type="text" name="choice_question[{{ i }}]"></p> 
 <p>Vastausvaihtoehto 1:<br> 
 <input type="text" name="choice_question[{{ i }}][choice]"></p>
@@ -21,10 +20,10 @@
 <option value="{{ i }}"> {{ i }}
 {% endfor %}
 </select>
+<hr>
 {% endfor %}
 <p>
 {% for i in range(0,text_question_count) %}
-<hr>
 <p>Kysymys: <input type="text" name="text_question[{{ i }}]" size="10"></p>
 <p>Oikea vastaus: <input type="text" name="text_question[{{ i }}][answer]" size="10"></p>
 <p>Tehtävästä saa pisteitä: <select name="text_question[{{ i }}][points]">
@@ -32,6 +31,7 @@
 <option value="{{ i }}"> {{ i }}
 {% endfor %}
 </select>
+<hr>
 {% endfor %}
 <p>
 <input type="submit" value="Jatka">

@@ -22,8 +22,6 @@ def login(username,  password):
             return False
  
 def signup(username,  password):
-    if (not username or not password) or (username.isspace() or password.isspace()):
-        return False
     hash_value = generate_password_hash(password)
     try:
         sql = "INSERT INTO users (username, password, admin) VALUES (:username, :password, 0)"
@@ -34,15 +32,18 @@ def signup(username,  password):
         return False
  
 def logout():
-    if 'username' in session:
+    if "username" in session:
         del session["username"]
-    if 'user_id' in session:
+    if "user_id" in session:
         del session["user_id"]
-    if 'admin' in session:
+    if "admin" in session:
         del session["admin"]
 
 def user_id():
     return session.get("user_id", 0)
+    
+def user_is_admin():
+    return session.get("admin")
     
 def get_user_id(username):
     sql = "SELECT id FROM Users WHERE username=:username"

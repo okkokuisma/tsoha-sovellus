@@ -33,6 +33,8 @@
                 <input type="submit" value="Rekisteröidy">
                 {% if signup_error == True %}
                     Virheellinen käyttäjätunnus tai salasana
+                {% elif username_duplicate == True %}
+                    Käyttäjätunnus varattu
                 {% elif signup_error == False %}
                     Käyttäjä lisätty tietokantaan
                 {% endif %}

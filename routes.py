@@ -5,7 +5,7 @@ from werkzeug.security import check_password_hash
 
 @app.route("/")
 def index():
-    if 'username' in session:
+    if users.user_id() != 0:
         course_list = courses.get_course_list()
         return render_template("index.html", courses=course_list)
     else:
@@ -24,10 +24,12 @@ def login():
 def signup():
     username = request.form["username"].strip()
     password = request.form["password"].strip()
+    if not username or not password:
+        return render_template("login.html", signup_error=True)
     if users.signup(username,  password):
         return render_template("login.html", signup_error=False)
     else: 
-        return render_template("login.html", signup_error=True)
+        return render_template("login.html", username_duplicate=True)
  
 @app.route("/logout")
 def logout():
@@ -36,21 +38,29 @@ def logout():
 
 @app.route("/newcourse")
 def new_course():
+    if users.user_is_admin() != True:
+        return redirect("/")
     teachers = users.get_teachers()
     return render_template("newcourse.html", teachers=teachers)
     
 @app.route("/teachers")
 def teachers():
+    if users.user_is_admin() != True:
+        return redirect("/")
     return render_template("teachers.html")
     
 @app.route("/registeredcourses")    
 def registered_courses():
     user_id = users.user_id()
+    if user_id == 0:
+        return redirect("/")
     course_list = courses.get_registered_courses(user_id)
     return render_template("index.html", courses=course_list)
 
 @app.route("/searchusers")    
 def search_users():
+    if users.user_is_admin() != True:
+        return redirect("/")
     searchword = request.args["searchword"]
     user_list = users.search_users(searchword)
     return render_template("teachers.html",  users=user_list)
@@ -58,18 +68,24 @@ def search_users():
 @app.route("/course/<int:id>/searchattendees")    
 def search_attendees(id): 
     course = courses.get_course_by_id(id)
+    if users.user_id() != course[2] and users.user_is_admin() != True:
+        return redirect("/")
     searchword = request.args["searchword"]
     attendee_list = users.search_attendees(id, searchword)
     return render_template("attendees_teacher.html", attendees=attendee_list, course=course)
     
 @app.route("/searchcourses")    
 def search_courses():
+    if users.user_id() == 0:
+        return redirect("/")
     searchword = request.args["searchword"]
     course_list = courses.search_courses(searchword)
     return render_template("index.html",  courses=course_list)
 
 @app.route("/addcourse", methods=["POST"])
 def add_course():
+    if users.user_is_admin() != True:
+        return redirect("/")
     course_name = request.form["course_name"].strip()
     teacher_id = request.form.get("teacher_id")
     course_key = request.form.get("course_key").strip()
@@ -85,6 +101,8 @@ def add_course():
     
 @app.route("/addteacher", methods=["POST"])
 def add_teacher():
+    if users.user_is_admin() != True:
+        return redirect("/")
     username = request.form.get("username").strip()
     user_id = users.get_user_id(username)
     if user_id == 0:
@@ -149,6 +167,8 @@ def add_questions():
 
 @app.route("/course/<int:id>/")
 def course(id):
+    if users.user_id == 0:
+        return redirect("/")
     user_id = users.user_id()
     course = courses.get_course_by_id(id)
     if not registrations.check_registration(user_id, id) and session["admin"] == False:
@@ -161,6 +181,8 @@ def course(id):
 @app.route("/course/<int:id>/register", methods=["POST"])
 def register(id):
     user_id = users.user_id()
+    if user_id == 0:
+        return redirect("/")
     course = courses.get_course_by_id(id)
     if course[3] == None:
         registrations.add_registration(user_id, course[0])
@@ -192,6 +214,8 @@ def attendee_results(course_id, user_id):
 @app.route("/exercise/<int:id>/")
 def exercise(id):
     user_id = users.user_id()
+    if user_id == 0:
+        return redirect("/")
     exercise = exercises.get_exercise_by_id(id)
     course = courses.get_course_by_id(exercise[2])
     if user_id == course[2]:
@@ -202,17 +226,7 @@ def exercise(id):
         answer_list = answers.get_answers(id,  user_id)
         return render_template("result.html", answers=answer_list, points=result[0], max_points=result[1], course=course)   
     question_list = get_list_of_questions_and_answers(id)
-    return render_template("exercise.html", questions=question_list, exercise=exercise, course=course)    
-
-#@app.route("/exercise/<int:id>/edit")
-#def edit_exercise(id):
-#    user_id = users.user_id()
-#    course_id = exercises.get_course_id_by_exercise(id)
-#    teacher_id = courses.get_teacher_id(course_id)
-#    if user_id != teacher_id:
-#        return redirect("/")
-#    question_list = get_list_of_questions_and_answers(id)
-#    return render_template("edit_exercise.html", questions=question_list, exercise_id=id,  course_id=course_id)  
+    return render_template("exercise.html", questions=question_list, exercise=exercise, course=course)      
     
 @app.route("/exercise/<int:id>/save_changes", methods=["POST"])
 def save_changes(id):
@@ -226,6 +240,8 @@ def save_changes(id):
 @app.route("/answer", methods=["POST"])
 def answer():
     user_id = users.user_id()
+    if user_id == 0:
+        return redirect("/")
     exercise_id = request.form["exercise_id"]
     course_id = exercises.get_course_id_by_exercise(exercise_id)
     course = courses.get_course_by_id(course_id)
