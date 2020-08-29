@@ -9,10 +9,12 @@
 {% block content %}
     <h2>Tulokset</h2>
     {% for answer in answers %}
-        <p>Kysymys: {{ answer[0] }}</p>
-        <p>Oikea vastaus: {{answer[1]}}</p>
-        <p>Vastasit: {{ answer[2] }}</p>
-        <hr>
+        <div class="infobox">
+            <p>Kysymys: {{ answer[0] }}</p>
+            <p>Oikea vastaus: {{answer[1]}}</p>
+            <p>Vastaus: {{ answer[2] }}</p>
+        </div>
+        <br>
     {% endfor %}
     <p>Pisteitä: {{ points }}/{{ max_points }}
 {% endblock %}

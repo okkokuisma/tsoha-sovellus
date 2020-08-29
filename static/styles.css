@@ -97,3 +97,13 @@ fieldset {
 legend {
     font-weight: bold;
 }
+
+.infobox {
+    border: 5px solid sandybrown;
+    border-radius: 10px;
+    padding: 10px 0;
+}
+
+.infobox p {
+    padding: 0 10px;
+}

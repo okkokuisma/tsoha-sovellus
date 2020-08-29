@@ -260,7 +260,17 @@ def attendee_results(course_id, user_id):
     if session_id != course[2]:
         return redirect("/")
     result_list = results.get_course_results(user_id, course_id)
-    return render_template("attendee_results.html", results=result_list, course=course)
+    return render_template("attendee_results.html", results=result_list, course=course, user_id=user_id)
+    
+@app.route("/course/<int:course_id>/attendees/<int:user_id>/<int:exercise_id>/")
+def attendee_answers(course_id, user_id, exercise_id):
+    session_id = users.user_id()
+    course = courses.get_course_by_id(course_id)
+    if session_id != course[2]:
+        return redirect("/")
+    result = results.get_result(exercise_id,  user_id)
+    answer_list = answers.get_answers(exercise_id,  user_id)
+    return render_template("result.html", answers=answer_list, points=result[0], max_points=result[1], course=course)   
     
 @app.route("/exercise/<int:id>/")
 def exercise(id):
