@@ -1,5 +1,6 @@
 from db import db
 from flask import session
+from os import urandom
 from werkzeug.security import check_password_hash, generate_password_hash
 
 def login(username,  password):
@@ -13,6 +14,7 @@ def login(username,  password):
         if check_password_hash(hash_value,password):
             session["username"] = username
             session["user_id"] = user[0]
+            session["csrf_token"] = urandom(16).hex()
             if user[2] == 1:
                 session["admin"] = True
             else:

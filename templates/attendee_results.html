@@ -1,10 +1,18 @@
 {% extends "layout.html" %}
 {% block title %}Opiskelijan tulokset{% endblock %}
-{% block navigation %}><a href="/course/{{ course[0] }}/">{{ course[1] }}</a>{% endblock %}
+
+{% block navigation %}
+    <li><span>></span></li>
+    <li><a href="/course/{{ course[0] }}/">{{ course[1] }}</a></li>
+{% endblock %}
+
 {% block content %}
-<ul>
-{% for result in results %}
-    <li><a href="/">{{ result[0] }}:</a> {{ result[1] }} pistettä maksimista {{ result[2] }}</li>
-{% endfor %}
-</ul>
+    <h2>Opiskelijan tulokset</h2>
+    <div class="list">
+        <ul>
+        {% for result in results %}
+            <li><a href="/">{{ result[0] }}:</a><span>{{ result[1] }} pistettä maksimista {{ result[2] }}</span></li>
+        {% endfor %}
+        </ul>
+    </div>
 {% endblock %}

@@ -1,6 +1,6 @@
 from app import app
-from flask import render_template, request, redirect,  session
-import users,  courses,  exercises,  questions,  choices,  results,  answers,  registrations
+from flask import render_template, request, redirect, session, abort
+import users,  courses, exercises, questions, choices, results, answers, registrations
 from werkzeug.security import check_password_hash
 
 @app.route("/")
@@ -84,6 +84,8 @@ def search_courses():
 
 @app.route("/addcourse", methods=["POST"])
 def add_course():
+    if session["csrf_token"] != request.form["csrf_token"]:
+        abort(403)
     if users.user_is_admin() != True:
         return redirect("/")
     course_name = request.form["course_name"].strip()
@@ -108,6 +110,8 @@ def edit_courses():
     
 @app.route("/removecourses", methods=["POST"])
 def remove_courses():
+    if session["csrf_token"] != request.form["csrf_token"]:
+        abort(403)
     if users.user_is_admin() != True:
         return redirect("/")
     course_list = courses.get_course_list()
@@ -119,6 +123,8 @@ def remove_courses():
     
 @app.route("/addteacher", methods=["POST"])
 def add_teacher():
+    if session["csrf_token"] != request.form["csrf_token"]:
+        abort(403)
     if users.user_is_admin() != True:
         return redirect("/")
     username = request.form.get("username").strip()
@@ -130,6 +136,8 @@ def add_teacher():
 
 @app.route("/newexercise", methods=["POST"])
 def new_exercise():
+    if session["csrf_token"] != request.form["csrf_token"]:
+        abort(403)
     exercise_name = request.form["exercise_name"].strip()
     course_id = request.form["course_id"]
     exercises.add_exercise(exercise_name,  course_id)
@@ -145,6 +153,8 @@ def edit_exercises(id):
     
 @app.route("/course/<int:id>/removeexercises", methods=["POST"])
 def remove_exercises(id):
+    if session["csrf_token"] != request.form["csrf_token"]:
+        abort(403)
     course = courses.get_course_by_id(id)
     if users.user_id() != course[2] and users.user_is_admin() != True:
         return redirect("/")
@@ -170,6 +180,8 @@ def new_questions(id):
 
 @app.route("/addquestions", methods=["POST"])
 def add_questions():
+    if session["csrf_token"] != request.form["csrf_token"]:
+        abort(403)
     exercise_id = request.form["exercise_id"]
     for i in range(0,10):
         question_title = request.form.get("choice_question["+str(i)+"]")
@@ -218,6 +230,8 @@ def course(id):
     
 @app.route("/course/<int:id>/register", methods=["POST"])
 def register(id):
+    if session["csrf_token"] != request.form["csrf_token"]:
+        abort(403)
     user_id = users.user_id()
     if user_id == 0:
         return redirect("/")
@@ -233,9 +247,8 @@ def register(id):
     
 @app.route("/course/<int:id>/attendees")
 def attendees(id):
-    user_id = users.user_id()
     course = courses.get_course_by_id(id)
-    if user_id != course[2]:
+    if users.user_id() != course[2] and users.user_is_admin() != True:
         return redirect("/")
     attendees = users.get_attendees(course[0])
     return render_template("attendees_teacher.html", attendees=attendees, course=course)
@@ -268,6 +281,8 @@ def exercise(id):
     
 @app.route("/exercise/<int:id>/save_changes", methods=["POST"])
 def save_changes(id):
+    if session["csrf_token"] != request.form["csrf_token"]:
+        abort(403)
     question_list =questions.get_question_list(id)
     for question in question_list:
         remove_question = request.form.get("question_" + str(question[0]) + "_remove")
@@ -277,6 +292,8 @@ def save_changes(id):
     
 @app.route("/answer", methods=["POST"])
 def answer():
+    if session["csrf_token"] != request.form["csrf_token"]:
+        abort(403)
     user_id = users.user_id()
     if user_id == 0:
         return redirect("/")

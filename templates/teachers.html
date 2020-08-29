@@ -1,17 +1,31 @@
 {% extends "layout.html" %}
 {% block title %}Luo uusi kurssi{% endblock %}
 {% block content %}
+<div class="navbar">
+    <ul>
+        <li><a href="/registeredcourses">Omat kurssit</a></li>
+        {% if session.admin == True %}
+        <li><a href="/newcourse">Lisää kurssi</a></li>
+        <li><a href="/teachers">Lisää opettaja</a></li>
+        <li><a href="/editcourses">Poista kursseja</a></li>
+        {% endif %}
+        <li style="float:right"><a href="/logout">Kirjaudu ulos</a></li>
+    </ul>
+</div>
 <h2>Opettajat</h2>
 <form action="/searchusers" method="GET">
     <input type="text" name="searchword">
     <input type="submit" value="Etsi käyttäjiä">
 </form>
-<ul>
-{% for user in users %}
-    <li>{{ user[1] }}</li>
-{% endfor %}
-</ul>
+<div class="list">
+    <ul>
+    {% for user in users %}
+        <li>{{ user[1] }}</li>
+    {% endfor %}
+    </ul>
+</div>
 <form action="/addteacher" method="POST">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     Käyttäjätunnus: <input type="text" name="username">
     <input type="submit" value="Lisää opettajaksi">
     {% if error == True %}

@@ -9,6 +9,7 @@
         <li><a href="/teachers">Lisää opettaja</a></li>
         <li><a href="/editcourses">Poista kursseja</a></li>
         {% endif %}
+        <li style="float:right"><a href="/logout">Kirjaudu ulos</a></li>
     </ul>
 </div>
 <h2>Kurssit</h2>
@@ -19,15 +20,18 @@
     </form>
 </div>
 <form action="/removecourses" method="POST">
-    <ul>
-    {% for course in courses %}
-        <li><a href="/course/{{ course[0] }}/">{{ course[1] }}</a>
-        {% if remove_courses == True %}
-            <input type="checkbox" name="course_{{ course[0] }}_remove" value="1"> Poista kurssi
-        {% endif %}
-        </li>
-    {% endfor %}
-    </ul>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+    <div class="list">
+        <ul>
+        {% for course in courses %}
+            <li><a href="/course/{{ course[0] }}/">{{ course[1] }}</a>
+            {% if remove_courses == True %}
+                <input type="checkbox" name="course_{{ course[0] }}_remove" value="1"> Poista kurssi
+            {% endif %}
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
     {% if remove_courses == True %}
         <p><input type="submit" value="Poista valitut"></p>
     {% endif %}

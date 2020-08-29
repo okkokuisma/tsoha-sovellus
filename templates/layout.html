@@ -11,12 +11,13 @@
             <h1>Noodle</h1>
         </div>
         <div class="login">
-            <p>Olet kirjautunut nimellä {{ session.username }}<br> 
-            <a href="/logout">Kirjaudu ulos</a></p>
+            <p>Olet kirjautunut nimellä {{ session.username }}</p>
         </div>
-        <nav>
-            <p><a href="/">Etusivu</a>{% block navigation %}{% endblock %}</p>
-        </nav>
+        <div class="nav">
+            <ul>
+                <li><a href="/">Etusivu</a></li>{% block navigation %}{% endblock %}
+            </ul>
+        </div>
         <hr>
         {% block content %}{% endblock %}
     </body>

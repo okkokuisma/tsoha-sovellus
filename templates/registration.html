@@ -1,10 +1,14 @@
 {% extends "layout.html" %}
 {% block title %}Ilmoittaudu kurssille{% endblock %}
-{% block navigation %}>{{ course[1] }}{% endblock %}
+{% block navigation %}
+    <li><span>></span></li>
+    <li><span>{{ course[1] }}</span></li>
+{% endblock %}
 {% block content %}
 <h2>Ilmoittaudu kurssille</h2>
 {% if course_key == True %}
     <form action="/course/{{ course[0] }}/register" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
         <fieldset>
             <p>Tämä kurssi on suojattu kurssiavaimella.</p>
             <p>Kurssiavain: <input type="text" name="course_key"><input type="submit" value="Ilmoittaudu"></p>
@@ -15,6 +19,7 @@
     </form>
 {% else %}
     <form action="/course/{{ course[0] }}/register" method="POST">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
         <fieldset>
             <p>Tämä kurssi on kaikille avoin.</p>
             <p><input type="submit" value="Ilmoittaudu"></p>
