@@ -3,7 +3,12 @@
 {% block navigation %}>{{ course[1] }}{% endblock %}
 {% block content %}
 {% if session.user_id == course[2] %}
-<p><a href="/course/{{ course[0] }}/attendees">Kurssille ilmoittautuneet opiskelijat</a></p>
+<div class="navbar">
+    <ul>
+        <li><a href="/course/{{ course[0] }}/attendees">Opiskelijat</a></li>
+        <li><a href="/course/{{ course[0] }}/editexercises">Poista tehtäviä</a></li>
+    </ul>
+</div>
 <form action="/newexercise" method="POST">
     <fieldset>
         <legend>Lisää tehtävä</legend>
@@ -14,9 +19,18 @@
 </form>
 {% endif %}
 <h2>Tehtävät</h2>
-<ul>
-{% for exercise in exercises %}
-    <li><a href="/exercise/{{ exercise[0] }}/">{{ exercise[1] }}</a></li>
-{% endfor %}
-</ul>
+<form action="/course/{{ course[0] }}/removeexercises" method="POST">
+    <ul>
+    {% for exercise in exercises %}
+        <li><a href="/exercise/{{ exercise[0] }}/">{{ exercise[1] }}</a>
+        {% if remove_exercises == True %}
+            <input type="checkbox" name="exercise_{{ exercise[0] }}_remove" value="1"> Poista tehtävä
+        {% endif %}
+        </li>
+    {% endfor %}
+    </ul>
+    {% if remove_exercises == True %}
+        <p><input type="submit" value="Poista valitut"></p>
+    {% endif %}
+</form>
 {% endblock %}

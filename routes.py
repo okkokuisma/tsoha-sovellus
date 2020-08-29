@@ -99,6 +99,24 @@ def add_course():
     registrations.add_registration(teacher_id, course_id)
     return redirect("/")
     
+@app.route("/editcourses")
+def edit_courses():
+    if users.user_is_admin() != True:
+        return redirect("/")
+    course_list = courses.get_course_list()
+    return render_template("index.html", courses=course_list,  remove_courses=True)
+    
+@app.route("/removecourses", methods=["POST"])
+def remove_courses():
+    if users.user_is_admin() != True:
+        return redirect("/")
+    course_list = courses.get_course_list()
+    for course in course_list:
+        remove_course = request.form.get("course_" + str(course[0]) + "_remove")
+        if remove_course == "1":
+            courses.hide_course(course[0])
+    return redirect("/")
+    
 @app.route("/addteacher", methods=["POST"])
 def add_teacher():
     if users.user_is_admin() != True:
@@ -116,6 +134,26 @@ def new_exercise():
     course_id = request.form["course_id"]
     exercises.add_exercise(exercise_name,  course_id)
     return redirect("/course/" + str(course_id))
+
+@app.route("/course/<int:id>/editexercises")
+def edit_exercises(id):
+    course = courses.get_course_by_id(id)
+    if users.user_id() != course[2] and users.user_is_admin() != True:
+        return redirect("/")
+    exercise_list = exercises.get_exercise_list(id)
+    return render_template("course.html", exercises=exercise_list, course=course,  remove_exercises=True)
+    
+@app.route("/course/<int:id>/removeexercises", methods=["POST"])
+def remove_exercises(id):
+    course = courses.get_course_by_id(id)
+    if users.user_id() != course[2] and users.user_is_admin() != True:
+        return redirect("/")
+    exercise_list = exercises.get_exercise_list(id)
+    for exercise in exercise_list:
+        remove_exercise = request.form.get("exercise_" + str(exercise[0]) + "_remove")
+        if remove_exercise == "1":
+            exercises.hide_exercise(exercise[0])
+    return redirect("/course/" + str(id))
 
 @app.route("/exercise/<int:id>/newquestions",  methods=["POST"])
 def new_questions(id):

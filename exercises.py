@@ -30,3 +30,8 @@ def get_course_id_by_exercise(exercise_id):
         return 0
     else:
         return course_id[0]
+
+def hide_exercise(exercise_id):
+    sql = "UPDATE exercises SET visible=0 WHERE id=:id"
+    db.session.execute(sql, {"id":exercise_id})
+    db.session.commit()
