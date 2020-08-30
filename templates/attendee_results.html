@@ -18,10 +18,10 @@
     </div>
     <h2>Opiskelijan tulokset</h2>
         {% for result in results %}
-        <div class="infobox">
-            <p><a href="/course/{{ course[0] }}/attendees/{{ user_id }}/{{ result[0] }}/">{{ result[1] }}:</a><br>
-            <span> {{ result[2] }} pistettä maksimista {{ result[3] }}</span></p>
-        </div>
-        <br>
+            <div class="infobox">
+                <p><a href="/course/{{ course[0] }}/attendees/{{ user_id }}/{{ result[0] }}/">{{ result[1] }}:</a><br>
+                <span> {{ result[2] }} pistettä maksimista {{ result[3] }}</span></p>
+            </div>
+            <br>
         {% endfor %}
 {% endblock %}

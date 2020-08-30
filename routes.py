@@ -280,7 +280,7 @@ def attendee_results(course_id, user_id):
 def attendee_answers(course_id, user_id, exercise_id):
     session_id = users.user_id()
     course = courses.get_course_by_id(course_id)
-    if session_id != course[2]:
+    if session_id != course[2] and session_id != user_id:
         return redirect("/")
     result = results.get_result(exercise_id,  user_id)
     answer_list = answers.get_answers(exercise_id,  user_id)

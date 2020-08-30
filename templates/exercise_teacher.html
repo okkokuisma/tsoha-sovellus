@@ -9,55 +9,61 @@
 {% endblock %}
 
 {% block content %}
-<div class="navbar">
-    <ul>
-    {% if session.user_id == course[2] or session.admin == True  %}
-        <li><a href="/course/{{ course[0] }}/attendees">Opiskelijat</a></li>
-        <li><a href="/course/{{ course[0] }}/editexercises">Poista tehtäviä</a></li>
-    {% endif %}
-    <li style="float:right"><a href="/logout">Kirjaudu ulos</a></li>
-    </ul>
-</div>
-<br>
-<form action="/exercise/{{ exercise[0] }}/newquestions" method="POST">
-    <fieldset>
-        <legend>Lisää kysymyksiä</legend>
-        <input type="hidden" name="exercise_id" value="{{ exercise[0] }}">
-        <p>Monivalintakysymyksiä: <select name="choice_question_count"></p>
-        {% for i in range(0,11) %}
-            <option value="{{ i }}"> {{ i }}
-        {% endfor %}
-        </select>
-        <p>Tekstikysymyksiä: <select name="text_question_count"></p>
-        {% for i in range(0,11) %}
-            <option value="{{ i }}"> {{ i }}
-        {% endfor %}
-        </select>
-        <p>
-        <input type="submit" value="Jatka">
-    </fieldset>
-</form>
-<h2>Kysymykset</h2>
-<form action="/exercise/{{ exercise[0] }}/removequestions" method="POST">
-    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-    {% for question in questions %}
-        <div class="infobox">
-            {% if question[2]==True %}
-                <h3>{{ question[1] }}<span style="float: right;>"><input type="checkbox" name="question_{{ question[0] }}_remove" value="1">Poista kysymys</span></h3>
-                <p>Vastausvaihtoehdot:</p>
-                <ol>
-                {% for choice in question[5] %}
-                    <li>{{ choice[1] }}</li>
-                {% endfor %}
-                </ol>
-                <p>Oikea vastaus: {{ question[3] }}
-            {% else %}
-                <h3>{{ question[1] }}<span style="float: right;"><input type="checkbox" name="question_{{ question[0] }}_remove" value="1">Poista kysymys</span></h3> 
-                <p>Vastaus: {{ question[3] }}</p>
+    <div class="navbar">
+        <ul>
+            {% if session.user_id == course[2] or session.admin == True  %}
+                <li><a href="/course/{{ course[0] }}/attendees">Opiskelijat</a></li>
+                <li><a href="/course/{{ course[0] }}/editexercises">Poista tehtäviä</a></li>
             {% endif %}
-        </div>
-        <br>
-    {% endfor %}
-    <input type="submit" value="Poista valitut">
-</form>
+            <li style="float:right"><a href="/logout">Kirjaudu ulos</a></li>
+        </ul>
+    </div>
+    <br>
+    <form action="/exercise/{{ exercise[0] }}/newquestions" method="POST">
+        <fieldset>
+            <legend>Lisää kysymyksiä</legend>
+            <input type="hidden" name="exercise_id" value="{{ exercise[0] }}">
+            <p>Monivalintakysymyksiä: <select name="choice_question_count"></p>
+            {% for i in range(0,11) %}
+                <option value="{{ i }}"> {{ i }}
+            {% endfor %}
+            </select>
+            <p>Tekstikysymyksiä: <select name="text_question_count"></p>
+            {% for i in range(0,11) %}
+                <option value="{{ i }}"> {{ i }}
+            {% endfor %}
+            </select>
+            <p>
+            <input type="submit" value="Jatka">
+        </fieldset>
+    </form>
+    <h2>Kysymykset</h2>
+    <form action="/exercise/{{ exercise[0] }}/removequestions" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+        {% for question in questions %}
+            <div class="infobox">
+                {% if question[2]==True %}
+                    <h3>
+                    {{ question[1] }}
+                    <span style="float: right;>"><input type="checkbox" name="question_{{ question[0] }}_remove" value="1">Poista kysymys</span>
+                    </h3>
+                    <p>Vastausvaihtoehdot:</p>
+                    <ol>
+                    {% for choice in question[5] %}
+                        <li>{{ choice[1] }}</li>
+                    {% endfor %}
+                    </ol>
+                    <p>Oikea vastaus: {{ question[3] }}
+                {% else %}
+                    <h3>
+                    {{ question[1] }}
+                    <span style="float: right;"><input type="checkbox" name="question_{{ question[0] }}_remove" value="1">Poista kysymys</span>
+                    </h3> 
+                    <p>Vastaus: {{ question[3] }}</p>
+                {% endif %}
+            </div>
+            <br>
+        {% endfor %}
+        <input type="submit" value="Poista valitut">
+    </form>
 {% endblock %}

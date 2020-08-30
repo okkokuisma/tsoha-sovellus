@@ -18,7 +18,7 @@ body {
     font-size: 20px;
 }
 
-.list li a:hover {
+.list li *:hover {
     background-color: sandybrown;
 }
 
@@ -110,4 +110,8 @@ legend {
 .infobox p {
     font-size: 20px;
     padding: 0 10px;
+}
+
+.infobox a {
+    color: white;
 }

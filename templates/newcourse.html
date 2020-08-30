@@ -1,29 +1,32 @@
 {% extends "layout.html" %}
 {% block title %}Luo uusi kurssi{% endblock %}
+
 {% block content %}
-<div class="navbar">
-    <ul>
-        <li><a href="/registeredcourses">Omat kurssit</a></li>
-        {% if session.admin == True %}
-        <li><a href="/newcourse">Lisää kurssi</a></li>
-        <li><a href="/teachers">Lisää opettaja</a></li>
-        <li><a href="/editcourses">Poista kursseja</a></li>
-        {% endif %}
-        <li style="float:right"><a href="/logout">Kirjaudu ulos</a></li>
-    </ul>
-</div>
-<form action="/addcourse" method="POST">
-    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-    <fieldset>
-        <p>Kurssin nimi: <input type="text" name="course_name"></p>
-        <p>Vastuuopettajan käyttäjätunnus:
-        <select name="teacher_id">
-        {% for user in teachers %}
-            <option value="{{ user[0] }}">{{ user[1] }}
-        {% endfor %}
-        </select></p>
-        <p>Kurssiavain (jätä tyhjäksi, jos et halua kurssille kurssiavainta): <input type="password" name="course_key"></p>
-        <input type="submit" value="Lisää kurssi"> {% if error == True %}Virheellinen syöte{% endif %}
-    </fieldset>
-</form>
+    <div class="navbar">
+        <ul>
+            <li><a href="/registeredcourses">Omat kurssit</a></li>
+            {% if session.admin == True %}
+                <li><a href="/newcourse">Lisää kurssi</a></li>
+                <li><a href="/teachers">Lisää opettaja</a></li>
+                <li><a href="/editcourses">Poista kursseja</a></li>
+            {% endif %}
+            <li style="float:right"><a href="/logout">Kirjaudu ulos</a></li>
+        </ul>
+    </div>
+    <br>
+    <form action="/addcourse" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+        <fieldset>
+            <legend>Lisää kurssi</legend>
+            <p>Kurssin nimi: <input type="text" name="course_name"></p>
+            <p>Vastuuopettajan käyttäjätunnus:
+            <select name="teacher_id">
+            {% for user in teachers %}
+                <option value="{{ user[0] }}">{{ user[1] }}
+            {% endfor %}
+            </select></p>
+            <p>Kurssiavain (jätä tyhjäksi, jos et halua kurssille kurssiavainta): <input type="password" name="course_key"></p>
+            <input type="submit" value="Lisää kurssi"> {% if error == True %}Virheellinen syöte{% endif %}
+        </fieldset>
+    </form>
 {% endblock %}

@@ -9,44 +9,46 @@
 {% block content %}
     <div class="navbar">
         <ul>
-        {% if session.user_id == course[2] or session.admin == True  %}
-            <li><a href="/course/{{ course[0] }}/attendees">Opiskelijat</a></li>
-            <li><a href="/course/{{ course[0] }}/editexercises">Poista tehtäviä</a></li>
-        {% else %}
-            <li><a href="/course/{{ course[0] }}/attendees/{{ session.user_id }}">Omat tulokset</a></li>
-        {% endif %}
-        <li style="float:right"><a href="/logout">Kirjaudu ulos</a></li>
+            {% if session.user_id == course[2] or session.admin == True  %}
+                <li><a href="/course/{{ course[0] }}/attendees">Opiskelijat</a></li>
+                <li><a href="/course/{{ course[0] }}/editexercises">Poista tehtäviä</a></li>
+            {% else %}
+                <li><a href="/course/{{ course[0] }}/attendees/{{ session.user_id }}">Omat tulokset</a></li>
+            {% endif %}
+            <li style="float:right"><a href="/logout">Kirjaudu ulos</a></li>
         </ul>
     </div>
     <br>
     {% if session.user_id == course[2] %}
-    <form action="/newexercise" method="POST">
-        <fieldset>
-            <legend>Lisää tehtävä</legend>
-            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-            <input type="hidden" name="course_id" value="{{ course[0] }}">
-            <p>Tehtävän nimi: <input type="text" name="exercise_name"></p>
-            <input type="submit" value="Lisää tehtävä">
-        </fieldset>
-    </form>
+        <form action="/newexercise" method="POST">
+            <fieldset>
+                <legend>Lisää tehtävä</legend>
+                <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+                <input type="hidden" name="course_id" value="{{ course[0] }}">
+                <p>Tehtävän nimi: <input type="text" name="exercise_name"></p>
+                <input type="submit" value="Lisää tehtävä">
+            </fieldset>
+        </form>
     {% endif %}
     <h2>Tehtävät</h2>
     <form action="/course/{{ course[0] }}/removeexercises" method="POST">
         <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
         {% if remove_exercises == True %}
-            <br>
-            {% for exercise in exercises %}
-                <div class="infobox">
-                    <p>{{ exercise[1] }}<span style="float: right;"><input type="checkbox" name="exercise_{{ exercise[0] }}_remove" value="1"> Poista tehtävä</span><p>
-                </div>
-                <br>
-            {% endfor %}
+            <div class="list">
+                <ul>
+                    {% for exercise in exercises %}
+                        <li><span>
+                        {{ exercise[1] }}<input type="checkbox" name="exercise_{{ exercise[0] }}_remove" value="1" style="float: right;">
+                        </span></li>
+                    {% endfor %}
+                </ul>
+            </div>
         {% else %}
             <div class="list">
                 <ul>
-                {% for exercise in exercises %}
-                    <li><a href="/exercise/{{ exercise[0] }}/">{{ exercise[1] }}</a></li>
-                {% endfor %}
+                    {% for exercise in exercises %}
+                        <li><a href="/exercise/{{ exercise[0] }}/">{{ exercise[1] }}</a></li>
+                    {% endfor %}
                 </ul>
             </div>
         {% endif %}

@@ -1,46 +1,49 @@
 {% extends "layout.html" %}
 {% block title %}Etusivu{% endblock %}
+
 {% block content %}
-<div class="navbar">
-    <ul>
-        <li><a href="/registeredcourses">Omat kurssit</a></li>
-        {% if session.admin == True %}
-        <li><a href="/newcourse">Lisää kurssi</a></li>
-        <li><a href="/teachers">Lisää opettaja</a></li>
-        <li><a href="/editcourses">Poista kursseja</a></li>
-        {% endif %}
-        <li style="float:right"><a href="/logout">Kirjaudu ulos</a></li>
-    </ul>
-</div>
-<h2>Kurssit</h2>
-<div class="search_form">
-    <form action="/searchcourses" method="GET">
-        <input type="text" name="searchword">
-        <input type="submit" value="Etsi kursseja">
-    </form>
-</div>
-<form action="/removecourses" method="POST">
-    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-    {% if remove_courses == True %}
-        <br>
-        {% for course in courses %}
-            <div class="infobox">
-                <p>{{ course[1] }}<span style="float: right;"><input type="checkbox" name="course_{{ course[0] }}_remove" value="1"> Poista kurssi</span><p>
-            </div>
-            <br>
-        {% endfor %}
-    {% else %}
-    <div class="list">
+    <div class="navbar">
         <ul>
-        {% for course in courses %}
-            <li><a href="/course/{{ course[0] }}/">{{ course[1] }}</a></li>
-        {% endfor %}
+            <li><a href="/registeredcourses">Omat kurssit</a></li>
+            {% if session.admin == True %}
+                <li><a href="/newcourse">Lisää kurssi</a></li>
+                <li><a href="/teachers">Lisää opettaja</a></li>
+                <li><a href="/editcourses">Poista kursseja</a></li>
+            {% endif %}
+            <li style="float:right"><a href="/logout">Kirjaudu ulos</a></li>
         </ul>
     </div>
-    {% endif %}
-    {% if remove_courses == True %}
-        <p><input type="submit" value="Poista valitut"></p>
-    {% endif %}
-</form>
+    <h2>Kurssit</h2>
+    <div class="search_form">
+        <form action="/searchcourses" method="GET">
+            <input type="text" name="searchword">
+            <input type="submit" value="Etsi kursseja">
+        </form>
+    </div>
+    <form action="/removecourses" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+        {% if remove_courses == True %}
+            <div class="list">
+                <ul>
+                    {% for course in courses %}
+                        <li><span>
+                        {{ course[1] }}<input type="checkbox" name="course_{{ course[0] }}_remove" value="1" style="float: right;">
+                        </span></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% else %}
+            <div class="list">
+                <ul>
+                    {% for course in courses %}
+                        <li><a href="/course/{{ course[0] }}/">{{ course[1] }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+        {% if remove_courses == True %}
+            <p><input type="submit" value="Poista valitut"></p>
+        {% endif %}
+    </form>
 {% endblock %}
 

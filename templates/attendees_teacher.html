@@ -1,32 +1,34 @@
 {% extends "layout.html" %}
 {% block title %}Kurssin {{ course[1] }} opiskelijat{% endblock %}
+
 {% block navigation %}
     <li><span>></span></li>
     <li><a href="/course/{{ course[0] }}/">{{ course[1] }}</a></li>
 {% endblock %}
+
 {% block content %}
-<div class="navbar">
-    <ul>
-    {% if session.user_id == course[2] or session.admin == True  %}
-        <li><a href="/course/{{ course[0] }}/attendees">Opiskelijat</a></li>
-        <li><a href="/course/{{ course[0] }}/editexercises">Poista tehtäviä</a></li>
-    {% endif %}
-    <li style="float:right"><a href="/logout">Kirjaudu ulos</a></li>
-    </ul>
-</div>
-<br>
-<h2>Kurssin {{ course[1] }} opiskelijat</h2>
-<div class="search_form">
-<form action="/course/{{ course[0] }}/searchattendees" method="GET">
-    <input type="text" name="searchword">
-    <input type="submit" value="Etsi käyttäjiä">
-</form>
-</div>
-<div class="list">
-<ul>
-{% for user in attendees %}
-    <li><a href="/course/{{ course[0] }}/attendees/{{ user[0] }}/">{{ user[1] }}</a></li>
-{% endfor %}
-</ul>
-</div>
+    <div class="navbar">
+        <ul>
+            {% if session.user_id == course[2] or session.admin == True  %}
+                <li><a href="/course/{{ course[0] }}/attendees">Opiskelijat</a></li>
+                <li><a href="/course/{{ course[0] }}/editexercises">Poista tehtäviä</a></li>
+            {% endif %}
+            <li style="float:right"><a href="/logout">Kirjaudu ulos</a></li>
+        </ul>
+    </div>
+    <br>
+    <h2>Kurssin {{ course[1] }} opiskelijat</h2>
+    <div class="search_form">
+        <form action="/course/{{ course[0] }}/searchattendees" method="GET">
+            <input type="text" name="searchword">
+            <input type="submit" value="Etsi käyttäjiä">
+        </form>
+    </div>
+    <div class="list">
+        <ul>
+            {% for user in attendees %}
+                <li><a href="/course/{{ course[0] }}/attendees/{{ user[0] }}/">{{ user[1] }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}
