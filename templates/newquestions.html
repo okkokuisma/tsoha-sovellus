@@ -24,17 +24,17 @@
         <input type="hidden" name="exercise_id" value="{{ exercise[0] }}">
         {% for i in range(0,choice_question_count) %}
             <div class="infobox">
-                <p>Kysymys: <input type="text" name="choice_question[{{ i }}]"></p> 
+                <p>Kysymys: <input type="text" name="choice_question[{{ i }}]" size="70"></p> 
                 <p>Vastausvaihtoehto 1:<br> 
-                <input type="text" name="choice_question[{{ i }}][choice]"></p>
+                <input type="text" name="choice_question[{{ i }}][choice]" size="40"></p>
                 <p>Vastausvaihtoehto 2:<br> 
-                <input type="text" name="choice_question[{{ i }}][choice]"></p>
+                <input type="text" name="choice_question[{{ i }}][choice]" size="40"></p>
                 <p>Vastausvaihtoehto 3:<br> 
-                <input type="text" name="choice_question[{{ i }}][choice]"></p>
+                <input type="text" name="choice_question[{{ i }}][choice]" size="40"></p>
                 <p>Vastausvaihtoehto 4:<br> 
-                <input type="text" name="choice_question[{{ i }}][choice]"></p>
+                <input type="text" name="choice_question[{{ i }}][choice]" size="40"></p>
                 <p>Oikea vastaus:<br>
-                <input type="text" name="choice_question[{{ i }}][answer]"></p>
+                <input type="text" name="choice_question[{{ i }}][answer]" size="40"></p>
                 <p>Tehtävästä saa pisteitä: <select name="choice_question[{{ i }}][points]">
                 {% for i in range(0,11) %}
                     <option value="{{ i }}"> {{ i }}
@@ -46,8 +46,8 @@
         <p>
         {% for i in range(0,text_question_count) %}
             <div class="infobox">
-                <p>Kysymys: <input type="text" name="text_question[{{ i }}]" size="10"></p>
-                <p>Oikea vastaus: <input type="text" name="text_question[{{ i }}][answer]" size="10"></p>
+                <p>Kysymys: <input type="text" name="text_question[{{ i }}]" size="70"></p>
+                <p>Oikea vastaus: <input type="text" name="text_question[{{ i }}][answer]" size="70"></p>
                 <p>Tehtävästä saa pisteitä: <select name="text_question[{{ i }}][points]">
                 {% for i in range(0,11) %}
                     <option value="{{ i }}"> {{ i }}
