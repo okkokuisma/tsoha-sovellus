@@ -1,6 +1,6 @@
 # Noodle
 
-Noodle on web-sovellus, jota voidaan käyttää opetuksen apuvälineenä. Noodle tarjoaa erilaisia tehtäväpohjia, joiden avulla opettajat voivat suunnitella tehtäviä opiskelijoiden ratkaistavaksi. Noodle tarkastaa vastaukset automaattisesti, mikä vähentää opettajan työtaakkaa ja tarjoaa opiskelijalle välittömän palautteen. Vastaukset tallentuvat tietokantaan, jolloin opettaja voi tarkastella opiskelijoiden tuloksia ja kehihtystä kurssin aikana.
+Noodle on web-sovellus, jota voidaan käyttää opetuksen apuvälineenä. Noodle tarjoaa erilaisia tehtäväpohjia, joiden avulla opettajat voivat suunnitella tehtäviä opiskelijoiden ratkaistavaksi. Noodle tarkastaa vastaukset automaattisesti, mikä vähentää opettajan työtaakkaa ja tarjoaa opiskelijalle välittömän palautteen. Vastaukset tallentuvat tietokantaan, jolloin opettaja voi tarkastella opiskelijoiden tuloksia ja kehitystä kurssin aikana.
 
 ## Käyttäjäroolit ja päätoiminnallisuudet
 
@@ -13,7 +13,7 @@ Noodle on web-sovellus, jota voidaan käyttää opetuksen apuvälineenä. Noodle
 	* Voi lisätä kurssilleen uusia tehtäviä ja kysymyksiä
 	* Voi poistaa kurssiltaan tehtäviä ja kysymyksiä
 	* Näkee kurssille ilmoittautuneet opiskelijat
-	* Näkee kurssille ilmottautuineiden opiskelijoiden vastaukset ja tulokset
+	* Näkee kurssille ilmottautuneiden opiskelijoiden vastaukset ja tulokset
 
 * Käyttäjä
 	* Voi liittyä kursseille ja suorittaa niiden tehtäviä
