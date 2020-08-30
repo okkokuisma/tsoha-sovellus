@@ -36,7 +36,7 @@ def login_form():
 def signup():
     username = request.form["username"].strip()
     password = request.form["password"].strip()
-    if not username or not password:
+    if not username or len(password) < 8:
         return render_template("signupform.html", signup_error=True)
     if users.signup(username,  password):
         return render_template("signupform.html", signup_error=False)
