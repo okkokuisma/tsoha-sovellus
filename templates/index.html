@@ -21,17 +21,23 @@
 </div>
 <form action="/removecourses" method="POST">
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+    {% if remove_courses == True %}
+        <br>
+        {% for course in courses %}
+            <div class="infobox">
+                <p>{{ course[1] }}<span style="float: right;"><input type="checkbox" name="course_{{ course[0] }}_remove" value="1"> Poista kurssi</span><p>
+            </div>
+            <br>
+        {% endfor %}
+    {% else %}
     <div class="list">
         <ul>
         {% for course in courses %}
-            <li><a href="/course/{{ course[0] }}/">{{ course[1] }}</a>
-            {% if remove_courses == True %}
-                <input type="checkbox" name="course_{{ course[0] }}_remove" value="1"> Poista kurssi
-            {% endif %}
-            </li>
+            <li><a href="/course/{{ course[0] }}/">{{ course[1] }}</a></li>
         {% endfor %}
         </ul>
     </div>
+    {% endif %}
     {% if remove_courses == True %}
         <p><input type="submit" value="Poista valitut"></p>
     {% endif %}

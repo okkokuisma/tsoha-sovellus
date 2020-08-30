@@ -169,14 +169,15 @@ def remove_exercises(id):
 def new_questions(id):
     user_id = users.user_id()
     course_id = exercises.get_course_id_by_exercise(id)
-    teacher_id = courses.get_teacher_id(course_id)
-    if user_id != teacher_id:
+    course = courses.get_course_by_id(course_id)
+    exercise = exercises.get_exercise_by_id(id)
+    if user_id != course[2]:
         return redirect("/")
     choice_questions = int(request.form["choice_question_count"])
     text_questions = int(request.form["text_question_count"])
     if choice_questions == 0 and text_questions == 0:
         return redirect("/exercise/" + str(id) + "/")
-    return render_template("newquestions.html", choice_question_count=choice_questions, text_question_count=text_questions, exercise_id=id)
+    return render_template("newquestions.html", choice_question_count=choice_questions, text_question_count=text_questions, exercise=exercise, course=course)
 
 @app.route("/addquestions", methods=["POST"])
 def add_questions():
@@ -257,7 +258,7 @@ def attendees(id):
 def attendee_results(course_id, user_id):
     session_id = users.user_id()
     course = courses.get_course_by_id(course_id)
-    if session_id != course[2]:
+    if session_id != course[2] and session_id != user_id:
         return redirect("/")
     result_list = results.get_course_results(user_id, course_id)
     return render_template("attendee_results.html", results=result_list, course=course, user_id=user_id)

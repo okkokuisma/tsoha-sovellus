@@ -1,9 +1,25 @@
 {% extends "layout.html" %}
 {% block title %}Etusivu{% endblock %}
+{% block navigation %}
+    <li><span>></span></li>
+    <li><a href="/course/{{ course[0] }}/">{{ course[1] }}</a></li>
+    <li><span>></span></li>
+    <li><span>{{ exercise[1] }}</span></li>
+{% endblock %}
 {% block content %}
+    <div class="navbar">
+        <ul>
+        {% if session.user_id == course[2] or session.admin == True  %}
+            <li><a href="/course/{{ course[0] }}/attendees">Opiskelijat</a></li>
+            <li><a href="/course/{{ course[0] }}/editexercises">Poista tehtäviä</a></li>
+        {% endif %}
+        <li style="float:right"><a href="/logout">Kirjaudu ulos</a></li>
+        </ul>
+    </div>
+    <br>
     <form action="/addquestions" method="POST">
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-    <input type="hidden" name="exercise_id" value="{{ exercise_id }}">
+    <input type="hidden" name="exercise_id" value="{{ exercise[0] }}">
     {% for i in range(0,choice_question_count) %}
     <p>Kysymys: <input type="text" name="choice_question[{{ i }}]"></p> 
     <p>Vastausvaihtoehto 1:<br> 
