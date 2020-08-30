@@ -231,7 +231,7 @@ def add_questions():
 
 @app.route("/course/<int:id>/")
 def course(id):
-    if users.user_id == 0:
+    if users.user_id() == 0:
         return redirect("/")
     user_id = users.user_id()
     course = courses.get_course_by_id(id)
