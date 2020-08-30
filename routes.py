@@ -290,7 +290,7 @@ def attendee_answers(course_id, user_id, exercise_id):
 def exercise(id):
     user_id = users.user_id()
     exercise = exercises.get_exercise_by_id(id)
-    if user_id == 0 or not registrations.check_registration(user_id, exercise[2]):
+    if user_id == 0 or not registrations.check_registration(user_id, exercise[2]) and users.user_is_admin() != True:
         return redirect("/")
     course = courses.get_course_by_id(exercise[2])
     if user_id == course[2]:
