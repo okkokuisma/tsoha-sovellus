@@ -38,23 +38,25 @@
     </fieldset>
 </form>
 <h2>Kysymykset</h2>
-<form action="/exercise/{{ exercise[0] }}/save_changes" method="POST">
+<form action="/exercise/{{ exercise[0] }}/removequestions" method="POST">
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     {% for question in questions %}
-        {% if question[2]==True %}
-            <h3>{{ question[1] }}<input type="checkbox" name="question_{{ question[0] }}_remove" value="1"> Poista kysymys</h3>
-            <p>Vastausvaihtoehdot:</p>
-            <ol>
-            {% for choice in question[5] %}
-                <li>{{ choice[1] }}</li>
-            {% endfor %}
-            </ol>
-            <p>Oikea vastaus: {{ question[3] }}
-        {% else %}
-            <h3>{{ question[1] }}<input type="checkbox" name="question_{{ question[0] }}_remove" value="1"> Poista kysymys</h3> 
-            <p>Vastaus: {{ question[3] }}</p>
-        {% endif %}
-        <hr>
+        <div class="infobox">
+            {% if question[2]==True %}
+                <h3>{{ question[1] }}<span style="float: right;>"><input type="checkbox" name="question_{{ question[0] }}_remove" value="1">Poista kysymys</span></h3>
+                <p>Vastausvaihtoehdot:</p>
+                <ol>
+                {% for choice in question[5] %}
+                    <li>{{ choice[1] }}</li>
+                {% endfor %}
+                </ol>
+                <p>Oikea vastaus: {{ question[3] }}
+            {% else %}
+                <h3>{{ question[1] }}<span style="float: right;"><input type="checkbox" name="question_{{ question[0] }}_remove" value="1">Poista kysymys</span></h3> 
+                <p>Vastaus: {{ question[3] }}</p>
+            {% endif %}
+        </div>
+        <br>
     {% endfor %}
     <input type="submit" value="Poista valitut">
 </form>

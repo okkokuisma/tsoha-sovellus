@@ -40,6 +40,8 @@ def logout():
         del session["user_id"]
     if "admin" in session:
         del session["admin"]
+    if "csrf_token" in session:
+        del session["csrf_token"]
 
 def user_id():
     return session.get("user_id", 0)

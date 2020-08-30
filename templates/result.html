@@ -12,6 +12,8 @@
         {% if session.user_id == course[2] or session.admin == True  %}
             <li><a href="/course/{{ course[0] }}/attendees">Opiskelijat</a></li>
             <li><a href="/course/{{ course[0] }}/editexercises">Poista tehtäviä</a></li>
+        {% else %}
+            <li><a href="/course/{{ course[0] }}/attendees/{{ session.user_id }}">Omat tulokset</a></li>
         {% endif %}
         <li style="float:right"><a href="/logout">Kirjaudu ulos</a></li>
         </ul>

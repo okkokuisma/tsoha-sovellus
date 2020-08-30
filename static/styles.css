@@ -31,7 +31,7 @@ body {
 }
 
 .navbar li {
-  float: left;
+    float: left;
 }
 
 .navbar li a {
@@ -71,8 +71,11 @@ body {
 }
 
 .header {
-    background: sandybrown;
     padding: 0 50px;
+}
+
+.header:hover{
+    background: sandybrown;
 }
 
 .login {

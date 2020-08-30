@@ -11,19 +11,25 @@
         </div>
         <div class="navbar">
             <ul>
-                <li style="float:right"><a href="/signupform">Rekisteröidy</a></li>
+                <li style="float:right"><a href="/loginform">Kirjaudu sisään</a></li>
             </ul>
         </div>
         <div class="forms">
-            <form action="/login" method="POST">
+            <form action="/signup" method="POST">
                 <fieldset>
-                    <legend>Kirjaudu sisään</legend>
+                    <legend>Rekisteröidy</legend>
                     <p>Tunnus:<br>
                     <input type="text" name="username"></p>
                     <p>Salasana:<br>
                     <input type="password" name="password"></p>
-                    <p><input type="submit" value="Kirjaudu">
-                    {% if login_error == True %}<br>Virheellinen käyttäjätunnus tai salasana{% endif %}</p>
+                    <p><input type="submit" value="Rekisteröidy">
+                    {% if signup_error == True %}
+                        <br>Virheellinen käyttäjätunnus tai salasana
+                    {% elif username_duplicate == True %}
+                        <br>Käyttäjätunnus varattu
+                    {% elif signup_error == False %}
+                        <br>Käyttäjä lisätty tietokantaan
+                    {% endif %}</p>
                 </fieldset>
             </form>
         </div>

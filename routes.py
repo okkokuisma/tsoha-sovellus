@@ -20,16 +20,28 @@ def login():
     else:
         return render_template("login.html", login_error=True)
 
+@app.route("/signupform")
+def signup_form():
+    if users.user_id() != 0:
+        return redirect("/")
+    return render_template("signupform.html")
+    
+@app.route("/loginform")
+def login_form():
+    if users.user_id() != 0:
+        return redirect("/")
+    return render_template("login.html")
+
 @app.route("/signup",methods=["POST"])
 def signup():
     username = request.form["username"].strip()
     password = request.form["password"].strip()
     if not username or not password:
-        return render_template("login.html", signup_error=True)
+        return render_template("signupform.html", signup_error=True)
     if users.signup(username,  password):
-        return render_template("login.html", signup_error=False)
+        return render_template("signupform.html", signup_error=False)
     else: 
-        return render_template("login.html", username_duplicate=True)
+        return render_template("signupform.html", username_duplicate=True)
  
 @app.route("/logout")
 def logout():
@@ -138,8 +150,11 @@ def add_teacher():
 def new_exercise():
     if session["csrf_token"] != request.form["csrf_token"]:
         abort(403)
-    exercise_name = request.form["exercise_name"].strip()
     course_id = request.form["course_id"]
+    course = courses.get_course_by_id(course_id)
+    if users.user_id() != course[2]:
+        return redirect("/")
+    exercise_name = request.form["exercise_name"].strip()
     exercises.add_exercise(exercise_name,  course_id)
     return redirect("/course/" + str(course_id))
 
@@ -188,8 +203,6 @@ def add_questions():
         question_title = request.form.get("choice_question["+str(i)+"]")
         if question_title == None:
             break
-        elif not question_title.strip():
-            continue
         else:
             answer = request.form.get("choice_question["+str(i)+"][answer]")
             points = int(request.form.get("choice_question["+str(i)+"][points]"))
@@ -276,9 +289,9 @@ def attendee_answers(course_id, user_id, exercise_id):
 @app.route("/exercise/<int:id>/")
 def exercise(id):
     user_id = users.user_id()
-    if user_id == 0:
-        return redirect("/")
     exercise = exercises.get_exercise_by_id(id)
+    if user_id == 0 or not registrations.check_registration(user_id, exercise[2]):
+        return redirect("/")
     course = courses.get_course_by_id(exercise[2])
     if user_id == course[2]:
         question_list = get_list_of_questions_and_answers(id)
@@ -290,8 +303,8 @@ def exercise(id):
     question_list = get_list_of_questions_and_answers(id)
     return render_template("exercise.html", questions=question_list, exercise=exercise, course=course)      
     
-@app.route("/exercise/<int:id>/save_changes", methods=["POST"])
-def save_changes(id):
+@app.route("/exercise/<int:id>/removequestions", methods=["POST"])
+def remove_questions(id):
     if session["csrf_token"] != request.form["csrf_token"]:
         abort(403)
     question_list =questions.get_question_list(id)

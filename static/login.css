@@ -1,16 +1,52 @@
 body {
     margin: auto;
-    max-width: 30em;
+    max-width: 55em;
     font-family: 'Helvetica', 'Arial', sans-serif;
 }
 
+.navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.navbar li {
+    float: left;
+}
+
+.navbar li a {
+    background-color: black;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 14px;
+    text-decoration: none;
+}
+
+.navbar li a:hover {
+    background-color: sandybrown;
+    color: white;
+}
+
 .header {
+    padding: 0 50px;
+}
+
+.header:hover{
     background: sandybrown;
-    font-weight: bold;
-    padding: 0 1em;
-    font-size: 2em;
 }
 
 .forms {
-    padding: 70px 0;
+    padding: 50px 250px;
+}
+
+fieldset {
+    border: 5px solid black;
+    border-radius: 10px;
+    max-width: 25em;
+}
+
+legend {
+    font-weight: bold;
 }
